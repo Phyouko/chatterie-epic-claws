@@ -50,70 +50,12 @@
 <section class="section section-light">
   <div class="container">
     <!--
-      ===== COMMENT GÉRER LES CHATONS (lire avant de modifier) =====
-
-      AJOUTER un chaton :
-        1. Sélectionne tout un bloc <article class="kitten-card"> ... </article> ci-dessous
-        2. Copie-le (Ctrl+C) et colle-le (Ctrl+V) juste avant </div> (juste avant la fin de cette liste)
-        3. Change : le nom (dans <h3>), le sexe/couleur/date/prix, et le "nom=..." dans le lien en bas du bloc
-
-      SUPPRIMER un chaton :
-        - Sélectionne tout son bloc <article class="kitten-card"> ... </article> et supprime-le
-
-      MARQUER "Réservé" au lieu de "Disponible" (le badge devient gris/éteint) :
-        - Remplace <span class="kitten-status">Disponible</span>
-          par     <span class="kitten-status reserved">Réservé</span>
-        - Pour remettre "Disponible", retire bien le mot "reserved" de la classe
-
-      METTRE UNE VRAIE PHOTO :
-        1. Mets le fichier photo dans le dossier images/chats/ (ex: images/chats/skadi.jpg)
-        2. Remplace le contenu de <div class="kitten-photo">...</div> par :
-           <div class="kitten-photo"><img src="images/chats/skadi.jpg" alt="Skadi"></div>
-           (supprime le <span class="kitten-status">...</span> et le <svg>...</svg> qui étaient dedans,
-           ou garde le <span class="kitten-status"> si tu veux garder le badge Disponible/Réservé sur la photo)
-
-      IMPORTANT : une fois ce fichier modifié et enregistré, il faut re-glisser TOUT le dossier
-      "Chatterie Epic Claws" sur Netlify (app.netlify.com/drop) pour que le site en ligne soit mis à jour.
-      Modifier ce fichier ne change QUE la version sur ton ordinateur.
+      Les fiches ci-dessous sont générées automatiquement depuis data/chatons.json
+      (js/chatons.js). Pour ajouter/retirer/modifier un chaton, utilise l'interface
+      d'administration sur /admin — plus besoin de modifier ce fichier à la main.
     -->
 
-    <div class="grid grid-3">
-
-      <article class="kitten-card">
-        <div class="kitten-photo">
-          <span class="kitten-status">Disponible</span>
-		  <img src="images/chatons/tyr.jpeg" alt="Skadi">
-        </div>
-        <div class="kitten-body">
-          <h3>Tyr</h3>
-          <ul class="kitten-facts">
-            <li><strong>Sexe :</strong> Mâle</li>
-            <li><strong>Couleur :</strong> Red</li>
-            <li><strong>Date de naissance :</strong> 17/08/2026</li>
-            <li><strong>Prix :</strong> 1500€</li>
-          </ul>
-          <a href="contact.html?sujet=adoption&amp;nom=Tyr" class="btn btn-outline btn-block">Je suis intéressé(e)</a>
-        </div>
-      </article>
-
-      <article class="kitten-card">
-        <div class="kitten-photo">
-          <span class="kitten-status">Disponible</span>
-		  <img src="images/chatons/skadi.jpeg" alt="Skadi">
-		</div>
-        <div class="kitten-body">
-          <h3>Skadi</h3>
-          <ul class="kitten-facts">
-            <li><strong>Sexe :</strong> Femelle</li>
-            <li><strong>Couleur :</strong> Black</li>
-            <li><strong>Date de naissance :</strong> 17/08/2026</li>
-            <li><strong>Prix :</strong> 1500€</li>
-          </ul>
-          <a href="contact.html?sujet=adoption&amp;nom=Skadi" class="btn btn-outline btn-block">Je suis intéressé(e)</a>
-        </div>
-      </article>
-
-    </div>
+    <div class="grid grid-3" id="kittens-grid"></div>
 
     <p class="form-note" style="text-align:center;max-width:640px;margin:2.5rem auto 0">
       Aucun chaton ne correspond à vos attentes pour le moment ? Contactez-nous pour être averti(e) en priorité des prochaines naissances.
@@ -176,5 +118,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/chatons.js"></script>
 </body>
 </html>

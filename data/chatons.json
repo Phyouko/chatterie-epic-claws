@@ -1,0 +1,22 @@
+{
+  "chatons": [
+    {
+      "nom": "Tyr",
+      "sexe": "Mâle",
+      "couleur": "Red",
+      "date_naissance": "17/08/2026",
+      "prix": "1500€",
+      "statut": "Disponible",
+      "photo": "images/chatons/tyr.jpeg"
+    },
+    {
+      "nom": "Skadi",
+      "sexe": "Femelle",
+      "couleur": "Black",
+      "date_naissance": "17/08/2026",
+      "prix": "1500€",
+      "statut": "Disponible",
+      "photo": "images/chatons/skadi.jpeg"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/chatons"
+public_folder: "images/chatons"
+
+collections:
+  - name: "chatons"
+    label: "Chatons disponibles"
+    files:
+      - name: "liste"
+        label: "Liste des chatons"
+        file: "data/chatons.json"
+        fields:
+          - label: "Chatons"
+            name: "chatons"
+            widget: "list"
+            summary: "{{nom}} — {{statut}}"
+            fields:
+              - {label: "Nom", name: "nom", widget: "string"}
+              - label: "Sexe"
+                name: "sexe"
+                widget: "select"
+                options: ["Mâle", "Femelle"]
+              - {label: "Couleur", name: "couleur", widget: "string"}
+              - label: "Date de naissance"
+                name: "date_naissance"
+                widget: "string"
+                required: false
+                hint: "ex : 17/08/2026"
+              - label: "Prix"
+                name: "prix"
+                widget: "string"
+                hint: "ex : 1500€"
+              - label: "Statut"
+                name: "statut"
+                widget: "select"
+                options: ["Disponible", "Réservé"]
+                default: "Disponible"
+              - label: "Photo"
+                name: "photo"
+                widget: "image"
+                required: false
