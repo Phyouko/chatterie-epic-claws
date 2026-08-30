@@ -42,3 +42,69 @@ collections:
                 name: "photo"
                 widget: "image"
                 required: false
+
+  - name: "reproductrices"
+    label: "Nos Reproductrices"
+    files:
+      - name: "liste"
+        label: "Liste des reproductrices"
+        file: "data/reproductrices.json"
+        fields:
+          - label: "Reproductrices"
+            name: "reproductrices"
+            widget: "list"
+            summary: "{{nom}}"
+            fields:
+              - {label: "Nom", name: "nom", widget: "string"}
+              - {label: "Chatterie d'origine", name: "chatterie_origine", widget: "string", required: false}
+              - {label: "Couleur", name: "couleur", widget: "string"}
+              - {label: "Lignée", name: "lignee", widget: "string"}
+              - {label: "Date de naissance", name: "date_naissance", widget: "string", required: false}
+              - label: "Caractère"
+                name: "caractere"
+                widget: "string"
+                hint: "Une courte phrase, affichée entre guillemets"
+              - {label: "Père", name: "pere", widget: "string", required: false}
+              - {label: "Mère", name: "mere", widget: "string", required: false}
+              - label: "Photo"
+                name: "photo"
+                widget: "image"
+                required: false
+                media_folder: "images/chats"
+                public_folder: "images/chats"
+
+  - name: "reproducteurs"
+    label: "Nos Reproducteurs"
+    files:
+      - name: "liste"
+        label: "Liste des reproducteurs"
+        file: "data/reproducteurs.json"
+        fields:
+          - label: "Reproducteurs"
+            name: "reproducteurs"
+            widget: "list"
+            summary: "{{nom}}"
+            fields:
+              - {label: "Nom", name: "nom", widget: "string"}
+              - {label: "Chatterie d'origine", name: "chatterie_origine", widget: "string", required: false}
+              - {label: "Couleur", name: "couleur", widget: "string"}
+              - {label: "Lignée", name: "lignee", widget: "string"}
+              - {label: "Date de naissance", name: "date_naissance", widget: "string", required: false}
+              - {label: "Titre (résultats d'exposition)", name: "titre", widget: "string", required: false}
+              - label: "Prix de la saillie (en €, sans le symbole)"
+                name: "prix_saillie"
+                widget: "string"
+                required: false
+                hint: "ex : 400"
+              - label: "Caractère"
+                name: "caractere"
+                widget: "string"
+                hint: "Une courte phrase, affichée entre guillemets"
+              - {label: "Père", name: "pere", widget: "string", required: false}
+              - {label: "Mère", name: "mere", widget: "string", required: false}
+              - label: "Photo"
+                name: "photo"
+                widget: "image"
+                required: false
+                media_folder: "images/chats"
+                public_folder: "images/chats"

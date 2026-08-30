@@ -1,0 +1,17 @@
+{
+  "reproducteurs": [
+    {
+      "nom": "Aïko",
+      "chatterie_origine": "Des Champs du Sol",
+      "couleur": "Bleu",
+      "lignee": "Européenne",
+      "date_naissance": "9 avril 2025",
+      "titre": "Résultats d'exposition : Excellent",
+      "prix_saillie": "400",
+      "caractere": "Un caractère doux, équilibré et très affectueux.",
+      "pere": "Unilab des Phoenix Coon",
+      "mere": "Utah des Chats du Causse",
+      "photo": "images/chats/aiko.jpg"
+    }
+  ]
+}

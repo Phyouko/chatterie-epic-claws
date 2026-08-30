@@ -1,0 +1,37 @@
+{
+  "reproductrices": [
+    {
+      "nom": "Isolde",
+      "chatterie_origine": "De la Paramita Coon",
+      "couleur": "Black Tortie Smoke",
+      "lignee": "Européenne",
+      "date_naissance": "10 mars 2024",
+      "caractere": "Toujours là pour veiller sur les siens.",
+      "pere": "Spirou de Majestic Kingdom",
+      "mere": "Thara P des Elfes d'Or",
+      "photo": "images/chats/isolde.jpg"
+    },
+    {
+      "nom": "Elvire",
+      "chatterie_origine": "De la Paramita Coon",
+      "couleur": "Black Tortie Blotched Tabby",
+      "lignee": "Européenne",
+      "date_naissance": "15 mars 2026",
+      "caractere": "Un vrai petit pot de colle tranquille.",
+      "pere": "Yoda de la Paramita'Coon",
+      "mere": "Thara P des Elfes d'Or",
+      "photo": "images/chats/elvire.jpeg"
+    },
+    {
+      "nom": "Arya",
+      "chatterie_origine": "De Coons'partner",
+      "couleur": "Black Tortie Blotched Tabby",
+      "lignee": "Européenne",
+      "date_naissance": "9 juillet 2025",
+      "caractere": "Elle aime sa bulle, mais c'est une crème.",
+      "pere": "Voyou du Domaine Mcheval",
+      "mere": "Upy de Loving Coon",
+      "photo": "images/chats/arya.jpeg"
+    }
+  ]
+}
