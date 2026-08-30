@@ -412,18 +412,13 @@ ul { padding: 0; margin: 0; list-style: none; }
 .cat-card .cattery { font-style: italic; color: var(--text-on-light-soft); margin-bottom: 1rem; display: block; }
 .cat-price {
   font-family: var(--font-display);
-  background: radial-gradient(circle at 32% 28%, var(--gold-300), var(--gold-600) 75%);
+  background: var(--gold-500);
   color: var(--ink);
   border: 1px solid var(--gold-700);
   padding: 0.4em 1.1em;
   border-radius: 999px;
   font-size: 0.9rem;
   white-space: nowrap;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,0.55),
-    inset 0 -2px 3px rgba(28,17,10,0.25),
-    0 4px 10px rgba(20,11,5,0.35);
 }
 .cat-facts {
   display: grid;
@@ -483,14 +478,9 @@ ul { padding: 0; margin: 0; list-style: none; }
   text-transform: uppercase;
   padding: 0.35em 0.8em;
   border-radius: 999px;
-  background: radial-gradient(circle at 32% 28%, var(--gold-300), var(--gold-600) 75%);
+  background: var(--gold-500);
   color: var(--ink);
   border: 1px solid var(--gold-700);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,0.55),
-    inset 0 -2px 3px rgba(28,17,10,0.25),
-    0 3px 8px rgba(20,11,5,0.3);
 }
 .kitten-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
 .kitten-body h3 { color: var(--brown-800); margin-bottom: 0.3rem; }
