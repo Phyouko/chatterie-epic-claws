@@ -482,6 +482,11 @@ ul { padding: 0; margin: 0; list-style: none; }
   color: var(--ink);
   border: 1px solid var(--gold-700);
 }
+.kitten-status.reserved {
+  background: var(--brown-500);
+  color: var(--parchment);
+  border: 1px solid var(--brown-700);
+}
 .kitten-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
 .kitten-body h3 { color: var(--brown-800); margin-bottom: 0.3rem; }
 .kitten-facts { margin: 0.6rem 0 1.2rem; font-size: 0.95rem; color: var(--text-on-light-soft); }

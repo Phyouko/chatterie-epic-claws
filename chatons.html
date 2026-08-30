@@ -60,8 +60,10 @@
       SUPPRIMER un chaton :
         - Sélectionne tout son bloc <article class="kitten-card"> ... </article> et supprime-le
 
-      MARQUER "Réservé" au lieu de "Disponible" :
-        - Change juste le mot dans <span class="kitten-status">Disponible</span>
+      MARQUER "Réservé" au lieu de "Disponible" (le badge devient gris/éteint) :
+        - Remplace <span class="kitten-status">Disponible</span>
+          par     <span class="kitten-status reserved">Réservé</span>
+        - Pour remettre "Disponible", retire bien le mot "reserved" de la classe
 
       METTRE UNE VRAIE PHOTO :
         1. Mets le fichier photo dans le dossier images/chats/ (ex: images/chats/skadi.jpg)
