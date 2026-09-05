@@ -7,7 +7,7 @@
       "date_naissance": "17/08/2026",
       "prix": "1500€",
       "statut": "Disponible",
-      "photo": "images/chatons/tyr.jpeg"
+      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.39-1-.jpeg"
     },
     {
       "nom": "Skadi",
@@ -16,7 +16,70 @@
       "date_naissance": "17/08/2026",
       "prix": "1500€",
       "statut": "Disponible",
-      "photo": "images/chatons/skadi.jpeg"
+      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Locksley",
+      "couleur": "Red Tabby",
+      "sexe": "Mâle",
+      "date_naissance": "21/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.04.55-2-.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Aveline",
+      "sexe": "Femelle",
+      "couleur": "Black Silver Blotched Tabby",
+      "date_naissance": "21/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.17-1-.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Edlyn",
+      "sexe": "Femelle",
+      "couleur": "Blue Tortie Blotched Tabby",
+      "date_naissance": "21/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.04.57.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Hazel",
+      "sexe": "Femelle",
+      "couleur": "Blue Silver Blotched Tabby",
+      "date_naissance": "21/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.12-1-.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Robin",
+      "sexe": "Mâle",
+      "couleur": "Red Blotched Tabby",
+      "date_naissance": "28/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Scarlett",
+      "sexe": "Femelle",
+      "couleur": "Black & White Tuxedo",
+      "date_naissance": "28/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16-3-.jpeg"
+    },
+    {
+      "statut": "Disponible",
+      "nom": "Marianne",
+      "sexe": "Femelle",
+      "couleur": "Bleu Smoke",
+      "date_naissance": "28/07/2026",
+      "prix": "1300",
+      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16-7-.jpeg"
     }
   ]
 }
