@@ -42,6 +42,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+.fill-space { flex: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -648,7 +649,6 @@ ul { padding: 0; margin: 0; list-style: none; }
   background: var(--ink);
   color: var(--text-on-dark-soft);
   padding: 3.5rem 0 1.6rem;
-  margin-top: auto;
 }
 .footer-grid {
   display: grid;
