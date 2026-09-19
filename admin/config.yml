@@ -24,6 +24,7 @@ collections:
                 widget: "select"
                 options: ["Mâle", "Femelle"]
               - {label: "Couleur", name: "couleur", widget: "string"}
+              - {label: "Lignée", name: "lignee", widget: "string", required: false}
               - label: "Date de naissance"
                 name: "date_naissance"
                 widget: "string"
@@ -42,6 +43,13 @@ collections:
                 name: "photo"
                 widget: "image"
                 required: false
+              - label: "Caractère (affiché sur sa fiche détaillée)"
+                name: "caractere"
+                widget: "string"
+                required: false
+                hint: "Une courte phrase, affichée entre guillemets"
+              - {label: "Père (affiché sur sa fiche détaillée)", name: "pere", widget: "string", required: false}
+              - {label: "Mère (affichée sur sa fiche détaillée)", name: "mere", widget: "string", required: false}
 
   - name: "reproductrices"
     label: "Nos Reproductrices"

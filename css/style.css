@@ -469,6 +469,7 @@ ul { padding: 0; margin: 0; list-style: none; }
   justify-content: center;
   color: var(--gold-300);
   position: relative;
+  text-decoration: none;
 }
 .kitten-photo svg { width: 64px; height: 64px; opacity: 0.85; }
 .kitten-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -496,7 +497,7 @@ ul { padding: 0; margin: 0; list-style: none; }
 .kitten-facts { margin: 0.6rem 0 1.2rem; font-size: 0.95rem; color: var(--text-on-light-soft); }
 .kitten-facts li { margin-bottom: 0.25rem; }
 .kitten-facts li strong { color: var(--text-on-light); font-weight: 600; }
-.kitten-body .btn { margin-top: auto; }
+.kitten-actions { margin-top: auto; display: flex; flex-direction: column; gap: 0.6rem; }
 
 /* Témoignages */
 .testimonial-card {
