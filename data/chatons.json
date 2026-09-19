@@ -7,7 +7,8 @@
       "date_naissance": "17/08/2026",
       "prix": "1500€",
       "statut": "Disponible",
-      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.39-1-.jpeg"
+      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.39-1-.jpeg",
+      "mere": "Arya"
     },
     {
       "nom": "Skadi",
@@ -16,7 +17,8 @@
       "date_naissance": "17/08/2026",
       "prix": "1500€",
       "statut": "Disponible",
-      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg"
+      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg",
+      "mere": "Arya"
     },
     {
       "statut": "Disponible",
