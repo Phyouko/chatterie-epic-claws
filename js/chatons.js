@@ -101,8 +101,8 @@ function renderParentSlot(label, nom, match) {
         ${photo}
       </div>
       <div class="parent-body">
-        <span class="cattery">${escapeHtml(cat.chatterie_origine || "")}</span>
         <h4><a href="${linkHref}">${escapeHtml(cat.nom)}</a></h4>
+        <span class="cattery">${escapeHtml(cat.chatterie_origine || "")}</span>
         <ul class="kitten-facts">
           <li><strong>Couleur :</strong> ${escapeHtml(cat.couleur || "à préciser")}</li>
           <li><strong>Lignée :</strong> ${escapeHtml(cat.lignee || "à préciser")}</li>
