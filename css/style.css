@@ -19,6 +19,10 @@
   --text-on-light-soft: #5a4632;
   --text-on-dark: #f3e9d6;
   --text-on-dark-soft: #cbb693;
+  --status-available: #4b6b3e;
+  --status-available-border: #33492b;
+  --status-reserved: #7a2f2f;
+  --status-reserved-border: #542020;
 
   --font-display: 'Cinzel', 'Times New Roman', serif;
   --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
@@ -476,22 +480,24 @@ ul { padding: 0; margin: 0; list-style: none; }
 .kitten-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .kitten-status {
   position: absolute;
-  top: 14px; right: 14px;
+  top: 16px; right: 16px;
   z-index: 2;
   font-family: var(--font-display);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.35em 0.8em;
+  padding: 0.5em 1.1em;
   border-radius: 999px;
-  background: var(--gold-500);
-  color: var(--ink);
-  border: 1px solid var(--gold-700);
+  background: var(--status-available);
+  color: var(--text-on-dark);
+  border: 1px solid var(--status-available-border);
+  box-shadow: 0 3px 8px rgba(20,11,5,0.3);
 }
 .kitten-status.reserved {
-  background: var(--brown-500);
-  color: var(--parchment);
-  border: 1px solid var(--brown-700);
+  background: var(--status-reserved);
+  color: var(--text-on-dark);
+  border: 1px solid var(--status-reserved-border);
 }
 .kitten-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; }
 .kitten-body h3 { color: var(--brown-800); margin-bottom: 0.3rem; }
