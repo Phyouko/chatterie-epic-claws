@@ -2,8 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images/chatons"
-public_folder: "images/chatons"
+media_folder: "/images/chatons"
+public_folder: "/images/chatons"
 
 collections:
   - name: "chatons"
@@ -86,8 +86,8 @@ collections:
                 name: "photo"
                 widget: "image"
                 required: false
-                media_folder: "images/chats"
-                public_folder: "images/chats"
+                media_folder: "/images/chats"
+                public_folder: "/images/chats"
 
   - name: "articles"
     label: "Nos Articles"
@@ -115,13 +115,13 @@ collections:
                 name: "image"
                 widget: "image"
                 required: false
-                media_folder: "images/articles"
-                public_folder: "images/articles"
+                media_folder: "/images/articles"
+                public_folder: "/images/articles"
               - label: "Contenu de l'article"
                 name: "corps"
                 widget: "markdown"
-                media_folder: "images/articles"
-                public_folder: "images/articles"
+                media_folder: "/images/articles"
+                public_folder: "/images/articles"
 
   - name: "reproducteurs"
     label: "Nos Reproducteurs"
@@ -156,5 +156,5 @@ collections:
                 name: "photo"
                 widget: "image"
                 required: false
-                media_folder: "images/chats"
-                public_folder: "images/chats"
+                media_folder: "/images/chats"
+                public_folder: "/images/chats"
