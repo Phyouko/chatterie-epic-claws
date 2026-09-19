@@ -1,37 +1,40 @@
 {
   "reproductrices": [
     {
-      "nom": "Isolde",
-      "chatterie_origine": "De la Paramita Coon",
-      "couleur": "Black Tortie Smoke",
       "lignee": "Européenne",
-      "date_naissance": "10 mars 2024",
-      "caractere": "Toujours là pour veiller sur les siens.",
+      "chatterie_origine": "De la Paramita Coon",
       "pere": "Spirou de Majestic Kingdom",
       "mere": "Thara P des Elfes d'Or",
-      "photo": "images/chats/isolde.jpg"
+      "nom": "Isolde",
+      "visible": true,
+      "photo": "images/chats/isolde.jpg",
+      "date_naissance": "10 mars 2024",
+      "caractere": "Toujours là pour veiller sur les siens.",
+      "couleur": "Black Tortie Smoke"
     },
     {
-      "nom": "Elvire",
-      "chatterie_origine": "De la Paramita Coon",
-      "couleur": "Black Tortie Blotched Tabby",
       "lignee": "Européenne",
-      "date_naissance": "15 mars 2026",
-      "caractere": "Un vrai petit pot de colle tranquille.",
+      "chatterie_origine": "De la Paramita Coon",
       "pere": "Yoda de la Paramita'Coon",
       "mere": "Thara P des Elfes d'Or",
-      "photo": "images/chats/elvire.jpeg"
+      "nom": "Elvire",
+      "visible": true,
+      "photo": "images/chats/elvire.jpeg",
+      "date_naissance": "15 mars 2026",
+      "caractere": "Un vrai petit pot de colle tranquille.",
+      "couleur": "Black Tortie Blotched Tabby"
     },
     {
-      "nom": "Arya",
-      "chatterie_origine": "De Coons'partner",
-      "couleur": "Black Tortie Blotched Tabby",
       "lignee": "Européenne",
-      "date_naissance": "9 juillet 2025",
-      "caractere": "Elle aime sa bulle, mais c'est une crème.",
+      "chatterie_origine": "De Coons'partner",
       "pere": "Voyou du Domaine Mcheval",
       "mere": "Upy de Loving Coon",
-      "photo": "images/chats/arya.jpeg"
+      "nom": "Arya",
+      "visible": true,
+      "photo": "images/chats/arya.jpeg",
+      "date_naissance": "9 juillet 2025",
+      "caractere": "Elle aime sa bulle, mais c'est une crème.",
+      "couleur": "Black Tortie Blotched Tabby"
     }
   ]
 }
