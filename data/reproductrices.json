@@ -35,6 +35,28 @@
       "date_naissance": "9 juillet 2025",
       "caractere": "Elle aime sa bulle, mais c'est une crème.",
       "couleur": "Black Tortie Blotched Tabby"
+    },
+    {
+      "lignee": "Européenne",
+      "chatterie_origine": "de la Seve d'Ambre",
+      "pere": " ",
+      "mere": " ",
+      "nom": "Ulyssia",
+      "visible": false,
+      "photo": "/images/chats/image_2026-09-19_203802688.png",
+      "date_naissance": "15/05/2023",
+      "caractere": " ",
+      "couleur": "Red Silver Blotched Tabby"
+    },
+    {
+      "visible": false,
+      "nom": "Vaiana",
+      "chatterie_origine": "Kay Lanmou",
+      "couleur": "Black Tortie",
+      "lignee": "Européenne",
+      "date_naissance": "15/08/2024",
+      "caractere": " ",
+      "photo": "/images/chats/image_2026-09-19_203626116.png"
     }
   ]
 }
