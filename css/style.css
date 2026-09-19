@@ -397,6 +397,7 @@ ul { padding: 0; margin: 0; list-style: none; }
   box-shadow: 0 0 0 5px var(--parchment), 0 0 0 6px var(--gold-500), var(--shadow-soft);
   margin: 0 3px 3rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  scroll-margin-top: 110px;
 }
 .cat-card:hover {
   transform: translateY(-5px);
@@ -530,6 +531,53 @@ ul { padding: 0; margin: 0; list-style: none; }
 .partners-strip { display: flex; align-items: center; justify-content: center; gap: 3.5rem; flex-wrap: wrap; }
 .partners-strip img { max-height: 42px; width: auto; filter: grayscale(1) opacity(0.6); transition: filter 0.2s; }
 .partners-strip img:hover { filter: grayscale(0) opacity(1); }
+
+/* Articles / blog */
+.article-card { min-height: 280px; }
+.article-card .teaser-body { padding: 1.6rem; }
+.article-card .article-date {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-500);
+  margin-bottom: 0.5rem;
+}
+.article-header { text-align: center; margin-bottom: 2.5rem; }
+.article-header .article-date {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-600);
+  margin-bottom: 0.6rem;
+}
+.article-cover {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--gold-600);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2.5rem;
+}
+.article-body { max-width: 720px; margin: 0 auto; font-size: 1.05rem; }
+.article-body h2 { font-size: 1.5rem; color: var(--brown-800); margin-top: 1.8em; }
+.article-body h3 { font-size: 1.2rem; color: var(--brown-800); margin-top: 1.5em; }
+.article-body p { margin-bottom: 1.2em; }
+.article-body ul, .article-body ol { margin: 0 0 1.2em; padding-left: 1.4em; }
+.article-body li { margin-bottom: 0.4em; }
+.article-body a { color: var(--gold-700); text-decoration: underline; }
+.article-body img { border-radius: var(--radius); margin: 1.5em 0; }
+.article-body blockquote {
+  margin: 1.5em 0;
+  padding: 0.2em 1.4em;
+  border-left: 3px solid var(--gold-500);
+  font-style: italic;
+  color: var(--text-on-light-soft);
+}
 
 /* FAQ */
 .faq-item {

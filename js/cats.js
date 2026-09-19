@@ -38,7 +38,7 @@ function renderCatCard(cat, isMale) {
   const alt = `${escapeHtml(nom)}, ${isMale ? "mâle reproducteur" : "chatte reproductrice"} Maine Coon`;
 
   return `
-    <article class="cat-card">
+    <article class="cat-card" id="${slugify(nom)}">
       <div class="cat-photo">
         <img src="${escapeHtml(cat.photo || "")}" alt="${alt}">
       </div>
@@ -71,4 +71,13 @@ function escapeHtml(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function slugify(str) {
+  return String(str)
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }

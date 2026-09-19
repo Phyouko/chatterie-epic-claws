@@ -19,24 +19,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const fiche = document.querySelector("#fiche-chaton");
   if (fiche) {
     const nom = new URLSearchParams(window.location.search).get("nom") || "";
-    fetch("data/chatons.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const chaton = (data.chatons || []).find((c) => c.nom === nom);
+    Promise.all([
+      fetch("data/chatons.json").then((res) => res.json()),
+      fetch("data/reproductrices.json").then((res) => res.json()).catch(() => ({ reproductrices: [] })),
+      fetch("data/reproducteurs.json").then((res) => res.json()).catch(() => ({ reproducteurs: [] })),
+    ])
+      .then(([chatonsData, femellesData, malesData]) => {
+        const chaton = (chatonsData.chatons || []).find((c) => c.nom === nom);
         if (!chaton) {
           fiche.innerHTML = "<p>Ce chaton n'est plus disponible ou la fiche demandée n'existe pas.</p>";
           return;
         }
+        const parentLinks = buildParentLinks(femellesData.reproductrices || [], malesData.reproducteurs || []);
         document.title = `${chaton.nom} — Chatterie Epic Claws`;
         const titleEl = document.querySelector("#fiche-titre");
         if (titleEl) titleEl.textContent = chaton.nom;
-        fiche.innerHTML = renderKittenFiche(chaton);
+        fiche.innerHTML = renderKittenFiche(chaton, parentLinks);
       })
       .catch(() => {
         fiche.innerHTML = "<p>Impossible de charger cette fiche pour le moment.</p>";
       });
   }
 });
+
+function buildParentLinks(reproductrices, reproducteurs) {
+  const map = {};
+  reproductrices.forEach((c) => {
+    if (c.nom) map[c.nom] = `reproductrices.html#${slugify(c.nom)}`;
+  });
+  reproducteurs.forEach((c) => {
+    if (c.nom) map[c.nom] = `reproducteurs.html#${slugify(c.nom)}`;
+  });
+  return map;
+}
+
+function slugify(str) {
+  return String(str)
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 function renderKittenCard(chaton) {
   const isReserved = chaton.statut === "Réservé";
@@ -70,7 +94,8 @@ function renderKittenCard(chaton) {
   `;
 }
 
-function renderKittenFiche(chaton) {
+function renderKittenFiche(chaton, parentLinks) {
+  parentLinks = parentLinks || {};
   const isReserved = chaton.statut === "Réservé";
   const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
   const nom = chaton.nom || "";
@@ -84,10 +109,11 @@ function renderKittenFiche(chaton) {
   const caractereHtml = chaton.caractere
     ? `<p class="cat-character">« ${escapeHtml(chaton.caractere)} »</p>`
     : "";
+  const parentName = (n) => (parentLinks[n] ? `<a href="${parentLinks[n]}">${escapeHtml(n)}</a>` : escapeHtml(n));
   const parentsHtml = chaton.pere || chaton.mere
     ? `<p class="cat-parents">
-        ${chaton.pere ? `<strong>Père :</strong> ${escapeHtml(chaton.pere)}<br>` : ""}
-        ${chaton.mere ? `<strong>Mère :</strong> ${escapeHtml(chaton.mere)}` : ""}
+        ${chaton.pere ? `<strong>Père :</strong> ${parentName(chaton.pere)}<br>` : ""}
+        ${chaton.mere ? `<strong>Mère :</strong> ${parentName(chaton.mere)}` : ""}
       </p>`
     : "";
 

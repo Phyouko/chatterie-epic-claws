@@ -48,8 +48,16 @@ collections:
                 widget: "string"
                 required: false
                 hint: "Une courte phrase, affichée entre guillemets"
-              - {label: "Père (affiché sur sa fiche détaillée)", name: "pere", widget: "string", required: false}
-              - {label: "Mère (affichée sur sa fiche détaillée)", name: "mere", widget: "string", required: false}
+              - label: "Père"
+                name: "pere"
+                widget: "string"
+                required: false
+                hint: "Tape le nom exact d'un de tes Reproducteurs pour créer un lien automatique vers sa fiche, sinon juste le nom en texte."
+              - label: "Mère"
+                name: "mere"
+                widget: "string"
+                required: false
+                hint: "Tape le nom exact d'une de tes Reproductrices pour créer un lien automatique vers sa fiche, sinon juste le nom en texte."
 
   - name: "reproductrices"
     label: "Nos Reproductrices"
@@ -80,6 +88,40 @@ collections:
                 required: false
                 media_folder: "images/chats"
                 public_folder: "images/chats"
+
+  - name: "articles"
+    label: "Nos Articles"
+    files:
+      - name: "liste"
+        label: "Liste des articles"
+        file: "data/articles.json"
+        fields:
+          - label: "Articles"
+            name: "articles"
+            widget: "list"
+            summary: "{{titre}} — {{date}}"
+            fields:
+              - {label: "Titre", name: "titre", widget: "string"}
+              - label: "Identifiant pour le lien (slug)"
+                name: "slug"
+                widget: "string"
+                hint: "Sans espace ni accent ni majuscule, ex : mon-super-article. Ne le change plus une fois publié."
+              - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false}
+              - label: "Extrait (affiché dans la liste des articles)"
+                name: "extrait"
+                widget: "text"
+                hint: "2-3 phrases maximum"
+              - label: "Image de couverture"
+                name: "image"
+                widget: "image"
+                required: false
+                media_folder: "images/articles"
+                public_folder: "images/articles"
+              - label: "Contenu de l'article"
+                name: "corps"
+                widget: "markdown"
+                media_folder: "images/articles"
+                public_folder: "images/articles"
 
   - name: "reproducteurs"
     label: "Nos Reproducteurs"
