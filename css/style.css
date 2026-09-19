@@ -553,6 +553,7 @@ ul { padding: 0; margin: 0; list-style: none; }
   color: var(--gold-300);
 }
 .value-icon svg { width: 26px; height: 26px; }
+.value-icon i { font-size: 1.5rem; }
 .value-card h3 { font-size: 1.05rem; color: var(--gold-100); margin-bottom: 0.6rem; }
 .value-card p { font-size: 0.95rem; color: var(--text-on-dark-soft); margin: 0; }
 
