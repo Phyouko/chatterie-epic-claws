@@ -25,6 +25,16 @@
       "date_naissance": "25/04/2024",
       "caractere": " ",
       "couleur": "Black and White"
+    },
+    {
+      "visible": true,
+      "nom": "Yoda",
+      "chatterie_origine": "de la Paramita'Coon",
+      "couleur": "Black Blotched Tabby and White",
+      "lignee": "Européenne",
+      "date_naissance": "27/01/2024",
+      "caractere": " ",
+      "photo": "/images/chats/image_2026-09-19_204112026.png"
     }
   ]
 }
