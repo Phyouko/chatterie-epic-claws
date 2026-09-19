@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data/reproductrices.json")
       .then((res) => res.json())
       .then((data) => {
-        femellesGrid.innerHTML = (data.reproductrices || []).map((c) => renderCatCard(c, false)).join("");
+        femellesGrid.innerHTML = (data.reproductrices || [])
+          .filter((c) => c.visible !== false)
+          .map((c) => renderCatCard(c, false))
+          .join("");
       })
       .catch(() => {
         femellesGrid.innerHTML = "<p>Impossible de charger les reproductrices pour le moment.</p>";
@@ -16,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data/reproducteurs.json")
       .then((res) => res.json())
       .then((data) => {
-        malesGrid.innerHTML = (data.reproducteurs || []).map((c) => renderCatCard(c, true)).join("");
+        malesGrid.innerHTML = (data.reproducteurs || [])
+          .filter((c) => c.visible !== false)
+          .map((c) => renderCatCard(c, true))
+          .join("");
       })
       .catch(() => {
         malesGrid.innerHTML = "<p>Impossible de charger les reproducteurs pour le moment.</p>";

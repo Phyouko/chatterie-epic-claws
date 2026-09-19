@@ -88,6 +88,11 @@ collections:
                 required: false
                 media_folder: "/images/chats"
                 public_folder: "/images/chats"
+              - label: "Afficher sur la page Reproductrices"
+                name: "visible"
+                widget: "boolean"
+                default: true
+                hint: "Décoche pour la masquer de la liste publique — elle pourra quand même s'afficher comme mère sur la fiche d'un chaton."
 
   - name: "articles"
     label: "Nos Articles"
@@ -158,3 +163,8 @@ collections:
                 required: false
                 media_folder: "/images/chats"
                 public_folder: "/images/chats"
+              - label: "Afficher sur la page Reproducteurs"
+                name: "visible"
+                widget: "boolean"
+                default: true
+                hint: "Décoche pour le masquer de la liste publique — il pourra quand même s'afficher comme père sur la fiche d'un chaton."
