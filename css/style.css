@@ -707,7 +707,7 @@ ul { padding: 0; margin: 0; list-style: none; }
 
 /* ---- Fiche chaton : scroll horizontal sur mobile ---- */
 @media (max-width: 700px) {
-  .trust-strip-mini, .siblings-row, .process-steps {
+  .siblings-row, .process-steps {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -716,8 +716,10 @@ ul { padding: 0; margin: 0; list-style: none; }
     justify-content: flex-start;
     padding-bottom: 0.6rem;
   }
-  .trust-item-mini, .process-step { flex: 0 0 32%; scroll-snap-align: start; }
+  .process-step { flex: 0 0 32%; scroll-snap-align: start; }
   .sibling-card { flex: 0 0 32%; width: auto; scroll-snap-align: start; }
+
+  .trust-strip-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 0.6rem; }
 }
 
 /* Articles / blog */
