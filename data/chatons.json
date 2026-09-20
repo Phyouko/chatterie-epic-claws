@@ -12,8 +12,7 @@
       "sexe": "Mâle",
       "couleur": "Red",
       "tagline": "Un petit lion roux plein de malice",
-      "caractere": "Toujours le premier réveillé et le dernier couché, Tyr observe tout avant de se lancer, moustaches en avant. Câlin sur ses propres conditions, il adore suivre ses humains dans la maison.",
-      "traits": "Joueur, Curieux, Sociable, Câlin sur demande"
+      "traits": ["Joueur", "Curieux", "Sociable", "Câlin"]
     },
     {
       "pere": "Yoda",
@@ -27,8 +26,7 @@
       "sexe": "Femelle",
       "couleur": "Black",
       "tagline": "Discrète en apparence, espiègle en vrai",
-      "caractere": "Skadi observe d'abord, puis s'installe sans bruit à côté de vous. Une fois en confiance, elle devient une vraie pile électrique qui adore chasser les jouets à travers la pièce.",
-      "traits": "Douce, Observatrice, Joueuse, Attachante"
+      "traits": ["Calme", "Discret", "Sociable", "Attachant"]
     }
   ]
 }

@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const parentIndex = buildParentIndex(femellesData.reproductrices || [], malesData.reproducteurs || []);
         document.title = `${chaton.nom} — Chatterie Epic Claws`;
         fiche.innerHTML = renderFullFiche(chaton, parentIndex, allChatons);
+        initFicheGallery(fiche);
       })
       .catch(() => {
         fiche.innerHTML = `<section class="section section-light"><div class="container"><p>Impossible de charger cette fiche pour le moment.</p></div></section>`;
@@ -62,7 +63,7 @@ function parseFrenchShortDate(dateStr) {
 function computeReadyDateLabel(dateStr) {
   const birth = parseFrenchShortDate(dateStr);
   if (!birth) return "";
-  const ready = new Date(birth.getTime() + 91 * 24 * 60 * 60 * 1000);
+  const ready = new Date(birth.getTime() + 84 * 24 * 60 * 60 * 1000);
   return ready.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 }
 
@@ -81,33 +82,36 @@ function findSiblings(chaton, allChatons) {
   );
 }
 
-function buildFicheIntro(chaton, allChatons) {
-  const nom = chaton.nom || "";
-  const isFemale = chaton.sexe === "Femelle";
-  const siblingNames = findSiblings(chaton, allChatons).map((c) => c.nom);
-  let withSiblings = "";
-  if (siblingNames.length === 1) {
-    withSiblings = ` aux côtés de ${escapeHtml(siblingNames[0])}`;
-  } else if (siblingNames.length > 1) {
-    withSiblings = ` aux côtés de ses frères et sœurs ${siblingNames.map(escapeHtml).join(", ")}`;
-  }
-  const agree = isFemale ? "e" : "";
-  const pronoun = isFemale ? "Elle" : "Il";
-  return `${escapeHtml(nom)} grandit à la chatterie${withSiblings}, entouré${agree} d'affection au quotidien. ${pronoun} sera prêt${agree} à rejoindre sa nouvelle famille dès 13 semaines.`;
-}
-
 function waLink(nom) {
   const text = `Bonjour, je suis intéressé(e) par ${nom} 🐾`;
   return `https://wa.me/33685499971?text=${encodeURIComponent(text)}`;
 }
 
-function renderTraits(traitsStr) {
-  if (!traitsStr) return "";
-  const traits = String(traitsStr).split(",").map((t) => t.trim()).filter(Boolean);
-  if (traits.length === 0) return "";
+function renderTraits(traits) {
+  if (!Array.isArray(traits) || traits.length === 0) return "";
   return `<div class="trait-tags">${traits
     .map((t) => `<span class="trait-tag"><i class="fa-solid fa-paw"></i> ${escapeHtml(t)}</span>`)
     .join("")}</div>`;
+}
+
+function getFichePhotos(chaton) {
+  const extra = (chaton.photos_supplementaires || []).map((p) => p && p.image).filter(Boolean);
+  return [chaton.photo, ...extra].filter(Boolean);
+}
+
+function initFicheGallery(root) {
+  const main = root.querySelector(".fiche-gallery-main img");
+  const thumbs = root.querySelectorAll(".fiche-thumb");
+  if (!main || thumbs.length === 0) return;
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      const src = thumb.getAttribute("data-src");
+      if (!src) return;
+      main.setAttribute("src", src);
+      thumbs.forEach((t) => t.classList.remove("active"));
+      thumb.classList.add("active");
+    });
+  });
 }
 
 function renderSiblingCard(sibling) {
@@ -245,8 +249,14 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
   const isReserved = chaton.statut === "Réservé";
   const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
   const sexIcon = isFemale ? "fa-venus" : "fa-mars";
-  const photo = chaton.photo
-    ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(nom)}, chaton Maine Coon disponible à l'adoption">`
+  const photos = getFichePhotos(chaton);
+  const mainPhoto = photos[0]
+    ? `<img src="${escapeHtml(photos[0])}" alt="${escapeHtml(nom)}, chaton Maine Coon disponible à l'adoption">`
+    : "";
+  const thumbsHtml = photos.length > 1
+    ? `<div class="fiche-gallery-thumbs">${photos
+        .map((p, i) => `<button type="button" class="fiche-thumb${i === 0 ? " active" : ""}" data-src="${escapeHtml(p)}"><img src="${escapeHtml(p)}" alt="${escapeHtml(nom)}, photo ${i + 1}"></button>`)
+        .join("")}</div>`
     : "";
   const readyLabel = computeReadyDateLabel(chaton.date_naissance);
   const ageWeeks = computeAgeWeeks(chaton.date_naissance);
@@ -256,15 +266,19 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
   const tagline = chaton.tagline ? `<p class="fiche-tagline">« ${escapeHtml(chaton.tagline)} »</p>` : "";
   const contactHref = `contact.html?sujet=adoption&nom=${encodeURIComponent(nom)}`;
   const wa = waLink(nom);
+  const traitsHtml = renderTraits(chaton.traits);
 
   const hero = `
     <section class="section section-light">
       <div class="container">
         <div class="fiche-hero-grid">
-          <div class="fiche-gallery-main">
-            <span class="${statusClass}">${escapeHtml(chaton.statut || "Disponible")}</span>
-            <span class="fiche-sex-badge"><i class="fa-solid ${sexIcon}"></i></span>
-            ${photo}
+          <div class="fiche-gallery">
+            <div class="fiche-gallery-main">
+              <span class="${statusClass}">${escapeHtml(chaton.statut || "Disponible")}</span>
+              <span class="fiche-sex-badge"><i class="fa-solid ${sexIcon}"></i></span>
+              ${mainPhoto}
+            </div>
+            ${thumbsHtml}
           </div>
           <div class="fiche-hero-info">
             ${tagline}
@@ -278,51 +292,36 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
                 <span class="qf-icon"><i class="fa-solid fa-palette"></i></span>
                 <span><span class="qf-label">Couleur</span><span class="qf-value">${escapeHtml(chaton.couleur || "à préciser")}</span></span>
               </div>
-              <div class="quick-fact">
+              <div class="quick-fact full">
                 <span class="qf-icon"><i class="fa-solid fa-cake-candles"></i></span>
-                <span><span class="qf-label">Né le</span><span class="qf-value">${dateValue}</span></span>
+                <div class="qf-stack">
+                  <div><span class="qf-label">Né le</span><span class="qf-value">${dateValue}</span></div>
+                  ${readyLabel ? `<div class="qf-divider"></div><div><span class="qf-label">Prêt à partir du</span><span class="qf-value">${readyLabel}</span></div>` : ""}
+                </div>
               </div>
-              <div class="quick-fact">
+              <div class="quick-fact full">
                 <span class="qf-icon"><i class="fa-solid fa-tag"></i></span>
                 <span><span class="qf-label">Prix</span><span class="qf-value">${escapeHtml(chaton.prix || "nous consulter")}</span></span>
               </div>
             </div>
-            <p class="fiche-intro">${buildFicheIntro(chaton, allChatons)}</p>
-            <div class="cta-row" style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.4rem">
+            ${traitsHtml}
+            <div class="cta-row" style="display:flex;gap:0.8rem;flex-wrap:wrap">
               <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
               <a href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             </div>
-            ${readyLabel ? `<p class="ready-date"><i class="fa-solid fa-calendar-days"></i> Prêt à partir du <strong>${readyLabel}</strong> (13 semaines)</p>` : ""}
           </div>
         </div>
 
         <div class="trust-strip-mini">
-          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-scroll"></i></span><span>Pedigree LOOF</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-scroll"></i></span><span>Pedigree</span></div>
           <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-syringe"></i></span><span>Vacciné</span></div>
           <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-pump-soap"></i></span><span>Vermifugé</span></div>
           <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-microchip"></i></span><span>Identifié (puce)</span></div>
-          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-shield-heart"></i></span><span>Garantie santé 9 mois</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-gift"></i></span><span>Kit de départ</span></div>
         </div>
       </div>
     </section>
   `;
-
-  const caractereHtml = chaton.caractere
-    ? `<blockquote class="character-quote-big">${escapeHtml(chaton.caractere)}</blockquote>`
-    : "";
-  const traitsHtml = renderTraits(chaton.traits);
-  const temperament = caractereHtml || traitsHtml ? `
-    <section class="section section-alt">
-      <div class="container">
-        <div class="section-head">
-          <span class="kicker">Personnalité</span>
-          <h2>Le caractère de ${escapeHtml(nom)}</h2>
-        </div>
-        ${caractereHtml}
-        ${traitsHtml}
-      </div>
-    </section>
-  ` : "";
 
   const parentsInner = renderParentsSection(chaton, parentIndex);
   const parentsSection = parentsInner ? `
@@ -370,7 +369,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
           <div class="process-step">
             <div class="process-num">4</div>
             <h4>Départ</h4>
-            <p>Remise dès 13 semaines, avec pedigree, carnet de santé et kit de bienvenue.</p>
+            <p>Remise dès 12 semaines, avec pedigree, carnet de santé et kit de départ.</p>
           </div>
         </div>
       </div>
@@ -391,7 +390,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
     </section>
   `;
 
-  return hero + temperament + parentsSection + siblingsSection + process + finalCta;
+  return hero + parentsSection + siblingsSection + process + finalCta;
 }
 
 function escapeHtml(str) {

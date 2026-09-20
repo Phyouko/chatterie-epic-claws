@@ -39,25 +39,28 @@ collections:
                 widget: "select"
                 options: ["Disponible", "Réservé"]
                 default: "Disponible"
-              - label: "Photo"
+              - label: "Photo principale"
                 name: "photo"
                 widget: "image"
                 required: false
+              - label: "Autres photos (carrousel sur sa fiche)"
+                name: "photos_supplementaires"
+                widget: "list"
+                required: false
+                field: {label: "Photo", name: "image", widget: "image"}
+                hint: "Optionnel : ajoutées sous la photo principale, cliquables pour les afficher en grand."
               - label: "Accroche (affichée sous la photo sur sa fiche)"
                 name: "tagline"
                 widget: "string"
                 required: false
                 hint: "Une phrase courte et vendeuse, ex : Un petit lion roux plein de malice"
-              - label: "Caractère (affiché en grand sur sa fiche détaillée)"
-                name: "caractere"
-                widget: "string"
-                required: false
-                hint: "2-3 phrases décrivant sa personnalité"
               - label: "Traits de caractère"
                 name: "traits"
-                widget: "string"
+                widget: "select"
+                multiple: true
                 required: false
-                hint: "Séparés par des virgules, ex : Joueur, Câlin, Sociable, Curieux"
+                options: ["Joueur", "Curieux", "Sociable", "Câlin", "Calme", "Affectueux", "Indépendant", "Gourmand", "Vif", "Attachant", "Casse-cou", "Discret", "Bavard", "Craintif au début"]
+                hint: "Choisis les mots qui décrivent le mieux son caractère (plusieurs choix possibles), affichés sur sa fiche."
               - label: "Père"
                 name: "pere"
                 widget: "string"
