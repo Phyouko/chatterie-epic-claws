@@ -58,6 +58,11 @@ collections:
                 widget: "string"
                 required: false
                 hint: "Tape le nom exact d'une de tes Reproductrices pour créer un lien automatique vers sa fiche, sinon juste le nom en texte."
+              - label: "Afficher sur la page Chatons disponibles"
+                name: "visible"
+                widget: "boolean"
+                default: true
+                hint: "Décoche pour le masquer de la liste publique — sa fiche reste accessible si quelqu'un a le lien direct."
 
   - name: "reproductrices"
     label: "Nos Reproductrices"

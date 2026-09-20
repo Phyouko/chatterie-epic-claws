@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data/chatons.json")
       .then((res) => res.json())
       .then((data) => {
-        const chatons = data.chatons || [];
+        const chatons = (data.chatons || []).filter((c) => c.visible !== false);
         if (chatons.length === 0) {
           grid.innerHTML = "";
           return;
