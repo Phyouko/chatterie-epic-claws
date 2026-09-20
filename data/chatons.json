@@ -4,73 +4,61 @@
       "pere": "Yoda",
       "mere": "Arya",
       "nom": "Tyr",
-      "prix": "1500€",
+      "prix": "1300€",
+      "visible": true,
       "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.39-1-.jpeg",
       "statut": "Disponible",
       "date_naissance": "17/08/2026",
       "sexe": "Mâle",
-      "couleur": "Red",
-      "visible": true
+      "couleur": "Red"
     },
     {
       "pere": "Yoda",
       "mere": "Arya",
       "nom": "Skadi",
-      "prix": "1500€",
+      "prix": "1300€",
+      "visible": true,
       "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg",
       "statut": "Disponible",
       "date_naissance": "17/08/2026",
       "sexe": "Femelle",
-      "couleur": "Black",
-      "visible": true
+      "couleur": "Black"
     },
     {
       "pere": "Wall-E",
       "mere": "Ulyssia",
       "nom": "Locksley",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.04.55-2-.jpeg",
       "statut": "Disponible",
       "date_naissance": "21/07/2026",
       "sexe": "Mâle",
-      "couleur": "Red Tabby",
-      "visible": false
-    },
-    {
-      "pere": "Wall-E",
-      "mere": "Ulyssia",
-      "nom": "Aveline",
-      "prix": "800€",
-      "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.17-1-.jpeg",
-      "statut": "Réservé",
-      "date_naissance": "21/07/2026",
-      "sexe": "Femelle",
-      "couleur": "Blue Silver Blotched Tabby",
-      "visible": false
+      "couleur": "Red Tabby"
     },
     {
       "pere": "Wall-E",
       "mere": "Ulyssia",
       "nom": "Edlyn",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.04.57.jpeg",
       "statut": "Disponible",
       "date_naissance": "21/07/2026",
       "sexe": "Femelle",
-      "couleur": "Blue Tortie Blotched Tabby",
-      "visible": false
+      "couleur": "Blue Tortie Blotched Tabby"
     },
     {
       "pere": "Wall-E",
       "mere": "Ulyssia",
       "nom": "Hazel",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.12-1-.jpeg",
       "statut": "Disponible",
       "date_naissance": "21/07/2026",
       "sexe": "Femelle",
-      "couleur": "Blue Silver Blotched Tabby",
-      "visible": false
+      "couleur": "Blue Silver Blotched Tabby"
     },
     {
       "lignee": "",
@@ -78,36 +66,36 @@
       "mere": "Vaiana",
       "nom": "Robin",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16.jpeg",
       "statut": "Disponible",
       "date_naissance": "28/07/2026",
       "sexe": "Mâle",
-      "couleur": "Red Blotched Tabby",
-      "visible": false
+      "couleur": "Red Blotched Tabby"
     },
     {
       "pere": "Wall-E",
       "mere": "Vaiana",
       "nom": "Scarlett",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16-3-.jpeg",
       "statut": "Disponible",
       "date_naissance": "28/07/2026",
       "sexe": "Femelle",
-      "couleur": "Black & White Tuxedo",
-      "visible": false
+      "couleur": "Black & White Tuxedo"
     },
     {
       "pere": "Wall-E",
       "mere": "Vaiana",
       "nom": "Marianne",
       "prix": "1300€",
+      "visible": false,
       "photo": "images/chatons/whatsapp-image-2026-09-05-at-16.05.16-7-.jpeg",
       "statut": "Disponible",
       "date_naissance": "28/07/2026",
       "sexe": "Femelle",
-      "couleur": "Black Smoke",
-      "visible": false
+      "couleur": "Black Smoke"
     }
   ]
 }
