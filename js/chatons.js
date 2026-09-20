@@ -25,21 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch("data/reproducteurs.json").then((res) => res.json()).catch(() => ({ reproducteurs: [] })),
     ])
       .then(([chatonsData, femellesData, malesData]) => {
-        const chaton = (chatonsData.chatons || []).find((c) => c.nom === nom);
+        const allChatons = chatonsData.chatons || [];
+        const chaton = allChatons.find((c) => c.nom === nom);
         if (!chaton) {
-          fiche.innerHTML = "<p>Ce chaton n'est plus disponible ou la fiche demandée n'existe pas.</p>";
+          fiche.innerHTML = `<section class="section section-light"><div class="container"><p>Ce chaton n'est plus disponible ou la fiche demandée n'existe pas.</p><a href="chatons.html" class="btn btn-outline">← Voir tous les chatons disponibles</a></div></section>`;
           return;
         }
         const parentIndex = buildParentIndex(femellesData.reproductrices || [], malesData.reproducteurs || []);
         document.title = `${chaton.nom} — Chatterie Epic Claws`;
-        const titleEl = document.querySelector("#fiche-titre");
-        if (titleEl) titleEl.textContent = chaton.nom;
-        fiche.innerHTML = renderKittenFiche(chaton);
-        const parentsSection = document.querySelector("#parents-section");
-        if (parentsSection) parentsSection.innerHTML = renderParentsSection(chaton, parentIndex);
+        fiche.innerHTML = renderFullFiche(chaton, parentIndex, allChatons);
       })
       .catch(() => {
-        fiche.innerHTML = "<p>Impossible de charger cette fiche pour le moment.</p>";
+        fiche.innerHTML = `<section class="section section-light"><div class="container"><p>Impossible de charger cette fiche pour le moment.</p></div></section>`;
       });
   }
 });
@@ -55,12 +52,90 @@ function buildParentIndex(reproductrices, reproducteurs) {
   return map;
 }
 
+function parseFrenchShortDate(dateStr) {
+  const m = String(dateStr || "").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!m) return null;
+  const [, dd, mm, yyyy] = m;
+  return new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+}
+
+function computeReadyDateLabel(dateStr) {
+  const birth = parseFrenchShortDate(dateStr);
+  if (!birth) return "";
+  const ready = new Date(birth.getTime() + 91 * 24 * 60 * 60 * 1000);
+  return ready.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function computeAgeWeeks(dateStr) {
+  const birth = parseFrenchShortDate(dateStr);
+  if (!birth) return null;
+  const diffMs = Date.now() - birth.getTime();
+  if (diffMs < 0) return null;
+  return Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000));
+}
+
+function findSiblings(chaton, allChatons) {
+  if (!chaton.pere || !chaton.mere) return [];
+  return (allChatons || []).filter(
+    (c) => c.nom !== chaton.nom && c.pere === chaton.pere && c.mere === chaton.mere
+  );
+}
+
+function buildFicheIntro(chaton, allChatons) {
+  const nom = chaton.nom || "";
+  const isFemale = chaton.sexe === "Femelle";
+  const siblingNames = findSiblings(chaton, allChatons).map((c) => c.nom);
+  let withSiblings = "";
+  if (siblingNames.length === 1) {
+    withSiblings = ` aux côtés de ${escapeHtml(siblingNames[0])}`;
+  } else if (siblingNames.length > 1) {
+    withSiblings = ` aux côtés de ses frères et sœurs ${siblingNames.map(escapeHtml).join(", ")}`;
+  }
+  const agree = isFemale ? "e" : "";
+  const pronoun = isFemale ? "Elle" : "Il";
+  return `${escapeHtml(nom)} grandit à la chatterie${withSiblings}, entouré${agree} d'affection au quotidien. ${pronoun} sera prêt${agree} à rejoindre sa nouvelle famille dès 13 semaines.`;
+}
+
+function waLink(nom) {
+  const text = `Bonjour, je suis intéressé(e) par ${nom} 🐾`;
+  return `https://wa.me/33685499971?text=${encodeURIComponent(text)}`;
+}
+
+function renderTraits(traitsStr) {
+  if (!traitsStr) return "";
+  const traits = String(traitsStr).split(",").map((t) => t.trim()).filter(Boolean);
+  if (traits.length === 0) return "";
+  return `<div class="trait-tags">${traits
+    .map((t) => `<span class="trait-tag"><i class="fa-solid fa-paw"></i> ${escapeHtml(t)}</span>`)
+    .join("")}</div>`;
+}
+
+function renderSiblingCard(sibling) {
+  const isReserved = sibling.statut === "Réservé";
+  const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
+  const photo = sibling.photo
+    ? `<img src="${escapeHtml(sibling.photo)}" alt="${escapeHtml(sibling.nom)}">`
+    : "";
+  return `
+    <a class="sibling-card" href="chaton.html?nom=${encodeURIComponent(sibling.nom)}">
+      <div class="sibling-photo">
+        <span class="${statusClass}">${escapeHtml(sibling.statut || "Disponible")}</span>
+        ${photo}
+      </div>
+      <div class="sibling-body">
+        <h4>${escapeHtml(sibling.nom)}</h4>
+        <span>${escapeHtml(sibling.sexe || "")}${sibling.couleur ? " · " + escapeHtml(sibling.couleur) : ""}</span>
+      </div>
+    </a>
+  `;
+}
+
 function renderParentsSection(chaton, parentIndex) {
   if (!chaton.pere && !chaton.mere) return "";
   const pereSlot = chaton.pere ? renderParentSlot("Père", chaton.pere, parentIndex[chaton.pere]) : "";
   const mereSlot = chaton.mere ? renderParentSlot("Mère", chaton.mere, parentIndex[chaton.mere]) : "";
   return `
-    <div class="section-head align-left parents-section">
+    <div class="section-head">
       <span class="kicker">Origines</span>
       <h2>Ses parents</h2>
     </div>
@@ -136,14 +211,14 @@ function renderKittenCard(chaton) {
   const isReserved = chaton.statut === "Réservé";
   const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
   const nom = chaton.nom || "";
-  const fiche = `chaton.html?nom=${encodeURIComponent(nom)}`;
+  const ficheHref = `chaton.html?nom=${encodeURIComponent(nom)}`;
   const photo = chaton.photo
     ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(nom)}">`
     : `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="9" r="2"/><circle cx="10.5" cy="6.2" r="2"/><circle cx="15.5" cy="6.2" r="2"/><circle cx="19" cy="9" r="2"/><path d="M12.5 11c3 0 5.5 2.2 5.5 4.6 0 1.9-1.6 3.4-3.6 3.4-1 0-1.6-.4-2.4-.4s-1.4.4-2.4.4c-2 0-3.6-1.5-3.6-3.4C6.5 13.2 9 11 12.5 11Z"/></svg>`;
 
   return `
     <article class="kitten-card">
-      <a href="${fiche}" class="kitten-photo" aria-label="Voir la fiche de ${escapeHtml(nom)}">
+      <a href="${ficheHref}" class="kitten-photo" aria-label="Voir la fiche de ${escapeHtml(nom)}">
         <span class="${statusClass}">${escapeHtml(chaton.statut || "Disponible")}</span>
         ${photo}
       </a>
@@ -156,7 +231,7 @@ function renderKittenCard(chaton) {
           <li><strong>Prix :</strong> ${escapeHtml(chaton.prix || "nous consulter")}</li>
         </ul>
         <div class="kitten-actions">
-          <a href="${fiche}" class="btn btn-outline btn-block">Voir sa fiche</a>
+          <a href="${ficheHref}" class="btn btn-outline btn-block">Voir sa fiche</a>
           <a href="contact.html?sujet=adoption&nom=${encodeURIComponent(nom)}" class="btn btn-primary btn-block">Je suis intéressé(e)</a>
         </div>
       </div>
@@ -164,42 +239,159 @@ function renderKittenCard(chaton) {
   `;
 }
 
-function renderKittenFiche(chaton) {
+function renderFullFiche(chaton, parentIndex, allChatons) {
+  const nom = chaton.nom || "";
+  const isFemale = chaton.sexe === "Femelle";
   const isReserved = chaton.statut === "Réservé";
   const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
-  const nom = chaton.nom || "";
+  const sexIcon = isFemale ? "fa-venus" : "fa-mars";
   const photo = chaton.photo
-    ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(nom)}">`
-    : `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="9" r="2"/><circle cx="10.5" cy="6.2" r="2"/><circle cx="15.5" cy="6.2" r="2"/><circle cx="19" cy="9" r="2"/><path d="M12.5 11c3 0 5.5 2.2 5.5 4.6 0 1.9-1.6 3.4-3.6 3.4-1 0-1.6-.4-2.4-.4s-1.4.4-2.4.4c-2 0-3.6-1.5-3.6-3.4C6.5 13.2 9 11 12.5 11Z"/></svg>`;
+    ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(nom)}, chaton Maine Coon disponible à l'adoption">`
+    : "";
+  const readyLabel = computeReadyDateLabel(chaton.date_naissance);
+  const ageWeeks = computeAgeWeeks(chaton.date_naissance);
+  const dateValue = chaton.date_naissance
+    ? `${escapeHtml(chaton.date_naissance)}${ageWeeks !== null ? ` (${ageWeeks} sem.)` : ""}`
+    : "à préciser";
+  const tagline = chaton.tagline ? `<p class="fiche-tagline">« ${escapeHtml(chaton.tagline)} »</p>` : "";
+  const contactHref = `contact.html?sujet=adoption&nom=${encodeURIComponent(nom)}`;
+  const wa = waLink(nom);
 
-  const ligneeRow = chaton.lignee
-    ? `<div><dt>Lignée</dt><dd>${escapeHtml(chaton.lignee)}</dd></div>`
-    : "";
-  const caractereHtml = chaton.caractere
-    ? `<p class="cat-character">« ${escapeHtml(chaton.caractere)} »</p>`
-    : "";
-  return `
-    <article class="cat-card">
-      <div class="cat-photo">
-        <span class="${statusClass}">${escapeHtml(chaton.statut || "Disponible")}</span>
-        ${photo}
-      </div>
-      <div class="cat-body">
-        <div class="cat-name-row">
-          <h3>${escapeHtml(nom)}</h3>
+  const hero = `
+    <section class="section section-light">
+      <div class="container">
+        <div class="fiche-hero-grid">
+          <div class="fiche-gallery-main">
+            <span class="${statusClass}">${escapeHtml(chaton.statut || "Disponible")}</span>
+            <span class="fiche-sex-badge"><i class="fa-solid ${sexIcon}"></i></span>
+            ${photo}
+          </div>
+          <div class="fiche-hero-info">
+            ${tagline}
+            <h1>${escapeHtml(nom)}</h1>
+            <div class="quick-facts">
+              <div class="quick-fact">
+                <span class="qf-icon"><i class="fa-solid ${sexIcon}"></i></span>
+                <span><span class="qf-label">Sexe</span><span class="qf-value">${escapeHtml(chaton.sexe || "à préciser")}</span></span>
+              </div>
+              <div class="quick-fact">
+                <span class="qf-icon"><i class="fa-solid fa-palette"></i></span>
+                <span><span class="qf-label">Couleur</span><span class="qf-value">${escapeHtml(chaton.couleur || "à préciser")}</span></span>
+              </div>
+              <div class="quick-fact">
+                <span class="qf-icon"><i class="fa-solid fa-cake-candles"></i></span>
+                <span><span class="qf-label">Né le</span><span class="qf-value">${dateValue}</span></span>
+              </div>
+              <div class="quick-fact">
+                <span class="qf-icon"><i class="fa-solid fa-tag"></i></span>
+                <span><span class="qf-label">Prix</span><span class="qf-value">${escapeHtml(chaton.prix || "nous consulter")}</span></span>
+              </div>
+            </div>
+            <p class="fiche-intro">${buildFicheIntro(chaton, allChatons)}</p>
+            <div class="cta-row" style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.4rem">
+              <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
+              <a href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            </div>
+            ${readyLabel ? `<p class="ready-date"><i class="fa-solid fa-calendar-days"></i> Prêt à partir du <strong>${readyLabel}</strong> (13 semaines)</p>` : ""}
+          </div>
         </div>
-        <dl class="cat-facts">
-          <div><dt>Sexe</dt><dd>${escapeHtml(chaton.sexe || "à préciser")}</dd></div>
-          <div><dt>Couleur</dt><dd>${escapeHtml(chaton.couleur || "à préciser")}</dd></div>
-          ${ligneeRow}
-          <div><dt>Date de naissance</dt><dd>${escapeHtml(chaton.date_naissance || "à préciser")}</dd></div>
-          <div><dt>Prix</dt><dd>${escapeHtml(chaton.prix || "nous consulter")}</dd></div>
-        </dl>
-        ${caractereHtml}
-        <a href="contact.html?sujet=adoption&nom=${encodeURIComponent(nom)}" class="btn btn-primary" style="margin-top:1.4rem">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
+
+        <div class="trust-strip-mini">
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-scroll"></i></span><span>Pedigree LOOF</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-syringe"></i></span><span>Vacciné</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-pump-soap"></i></span><span>Vermifugé</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-microchip"></i></span><span>Identifié (puce)</span></div>
+          <div class="trust-item-mini"><span class="ti-icon"><i class="fa-solid fa-shield-heart"></i></span><span>Garantie santé 9 mois</span></div>
+        </div>
       </div>
-    </article>
+    </section>
   `;
+
+  const caractereHtml = chaton.caractere
+    ? `<blockquote class="character-quote-big">${escapeHtml(chaton.caractere)}</blockquote>`
+    : "";
+  const traitsHtml = renderTraits(chaton.traits);
+  const temperament = caractereHtml || traitsHtml ? `
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Personnalité</span>
+          <h2>Le caractère de ${escapeHtml(nom)}</h2>
+        </div>
+        ${caractereHtml}
+        ${traitsHtml}
+      </div>
+    </section>
+  ` : "";
+
+  const parentsInner = renderParentsSection(chaton, parentIndex);
+  const parentsSection = parentsInner ? `
+    <section class="section section-light">
+      <div class="container">${parentsInner}</div>
+    </section>
+  ` : "";
+
+  const siblings = findSiblings(chaton, allChatons);
+  const siblingsSection = siblings.length > 0 ? `
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Même portée</span>
+          <h2>Ses frères et sœurs</h2>
+        </div>
+        <div class="siblings-row">${siblings.map(renderSiblingCard).join("")}</div>
+      </div>
+    </section>
+  ` : "";
+
+  const process = `
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Étapes</span>
+          <h2>Comment se passe l'adoption ?</h2>
+        </div>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-num">1</div>
+            <h4>Prise de contact</h4>
+            <p>Vous nous parlez de votre projet, on répond à toutes vos questions.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-num">2</div>
+            <h4>Rencontre</h4>
+            <p>En visio ou à la chatterie au Soler, pour faire connaissance avec ${escapeHtml(nom)}.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-num">3</div>
+            <h4>Réservation</h4>
+            <p>Un acompte de 300 € valide votre réservation jusqu'au départ du chaton.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-num">4</div>
+            <h4>Départ</h4>
+            <p>Remise dès 13 semaines, avec pedigree, carnet de santé et kit de bienvenue.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const finalCta = `
+    <section class="section section-alt" style="text-align:center">
+      <div class="container">
+        <h2>Craquez pour ${escapeHtml(nom)} ?</h2>
+        <p style="max-width:520px;margin:0 auto 1.6rem">Une question, un coup de cœur ? Nous serons ravis d'échanger avec vous.</p>
+        <div class="cta-row" style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.6rem">
+          <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
+          <a href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        </div>
+        <a href="chatons.html" class="btn btn-outline">← Voir tous les chatons disponibles</a>
+      </div>
+    </section>
+  `;
+
+  return hero + temperament + parentsSection + siblingsSection + process + finalCta;
 }
 
 function escapeHtml(str) {

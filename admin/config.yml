@@ -43,11 +43,21 @@ collections:
                 name: "photo"
                 widget: "image"
                 required: false
-              - label: "Caractère (affiché sur sa fiche détaillée)"
+              - label: "Accroche (affichée sous la photo sur sa fiche)"
+                name: "tagline"
+                widget: "string"
+                required: false
+                hint: "Une phrase courte et vendeuse, ex : Un petit lion roux plein de malice"
+              - label: "Caractère (affiché en grand sur sa fiche détaillée)"
                 name: "caractere"
                 widget: "string"
                 required: false
-                hint: "Une courte phrase, affichée entre guillemets"
+                hint: "2-3 phrases décrivant sa personnalité"
+              - label: "Traits de caractère"
+                name: "traits"
+                widget: "string"
+                required: false
+                hint: "Séparés par des virgules, ex : Joueur, Câlin, Sociable, Curieux"
               - label: "Père"
                 name: "pere"
                 widget: "string"

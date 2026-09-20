@@ -614,6 +614,100 @@ ul { padding: 0; margin: 0; list-style: none; }
 }
 .parent-unknown svg { width: 48px; height: 48px; opacity: 0.85; }
 
+/* ---- Fiche chaton détaillée ---- */
+.fiche-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: start; }
+@media (max-width: 860px) { .fiche-hero-grid { grid-template-columns: 1fr; } }
+
+.fiche-gallery-main {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3.1;
+  box-shadow: 0 0 0 4px var(--parchment), 0 0 0 5px var(--gold-500), var(--shadow-soft);
+  background: linear-gradient(160deg, var(--brown-800), var(--brown-600));
+}
+.fiche-gallery-main img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.fiche-gallery-main .kitten-status { top: 18px; right: 18px; }
+.fiche-sex-badge {
+  position: absolute; top: 18px; left: 18px; z-index: 2;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(28,17,10,0.55); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold-300); border: 1px solid rgba(228,199,119,0.5); font-size: 1.1rem;
+}
+
+.fiche-tagline { font-style: italic; color: var(--gold-700); font-size: 1.15rem; margin: 0 0 1.2rem; }
+
+.quick-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin-bottom: 1.6rem; }
+.quick-fact {
+  display: flex; align-items: center; gap: 0.7rem;
+  background: var(--cream); border: 1px solid rgba(199,154,61,0.35);
+  border-radius: var(--radius); padding: 0.75rem 0.9rem;
+}
+.quick-fact .qf-icon {
+  width: 34px; height: 34px; flex: none; border-radius: 50%;
+  background: rgba(199,154,61,0.14); color: var(--gold-700);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.quick-fact .qf-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-on-light-soft); display: block; }
+.quick-fact .qf-value { font-weight: 600; color: var(--text-on-light); }
+
+.fiche-intro { color: var(--text-on-light-soft); margin-bottom: 1.6rem; }
+
+.btn-whatsapp { background: #2f5c40; color: #f3e9d6; border-color: #1f3d2a; }
+.btn-whatsapp:hover { background: #3a7150; color: #fff; }
+
+.ready-date { display: flex; align-items: center; gap: 0.6em; color: var(--text-on-light-soft); font-size: 0.95rem; }
+.ready-date i { color: var(--gold-600); }
+.ready-date strong { color: var(--text-on-light); }
+
+.trust-strip-mini { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 3rem; }
+@media (max-width: 860px) { .trust-strip-mini { grid-template-columns: repeat(2, 1fr); } }
+.trust-item-mini { text-align: center; padding: 0.5rem; }
+.trust-item-mini .ti-icon {
+  width: 52px; height: 52px; margin: 0 auto 0.7rem; border-radius: 50%;
+  border: 1px solid var(--gold-500); background: rgba(199,154,61,0.1);
+  display: flex; align-items: center; justify-content: center; color: var(--gold-700); font-size: 1.25rem;
+}
+.trust-item-mini span { display: block; font-size: 0.85rem; color: var(--text-on-light-soft); font-weight: 500; }
+
+.character-quote-big {
+  font-family: var(--font-display); font-size: 1.3rem; line-height: 1.55; color: var(--text-on-light);
+  margin: 0; padding-left: 1.2rem; border-left: 3px solid var(--gold-500);
+}
+.trait-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.4rem; }
+.trait-tag {
+  background: var(--cream); border: 1px solid var(--gold-500); color: var(--gold-700);
+  border-radius: 999px; padding: 0.5em 1.1em; font-size: 0.85rem; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 0.4em;
+}
+
+.siblings-row { display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
+.sibling-card {
+  display: block; width: 200px; background: var(--cream); border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-soft); border: 1px solid rgba(199,154,61,0.3); color: inherit; transition: transform 0.2s ease;
+}
+.sibling-card:hover { transform: translateY(-4px); }
+.sibling-card:hover h4 { color: var(--gold-700); }
+.sibling-photo { aspect-ratio: 1; position: relative; overflow: hidden; }
+.sibling-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sibling-photo .kitten-status { top: 10px; right: 10px; font-size: 0.62rem; padding: 0.35em 0.75em; }
+.sibling-body { padding: 0.9rem 1rem; }
+.sibling-body h4 { font-size: 1.05rem; margin: 0 0 0.2rem; }
+.sibling-body span { font-size: 0.82rem; color: var(--text-on-light-soft); }
+
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
+@media (max-width: 860px) { .process-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .process-steps { grid-template-columns: 1fr; } }
+.process-step { text-align: center; padding: 0 0.5rem; }
+.process-num {
+  width: 54px; height: 54px; margin: 0 auto 1rem; border-radius: 50%;
+  border: 1px solid var(--gold-500); background: rgba(199,154,61,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); color: var(--gold-300); font-size: 1.3rem;
+}
+.process-step h4 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+
 /* Articles / blog */
 .article-card { min-height: 280px; }
 .article-card .teaser-body { padding: 1.6rem; }
