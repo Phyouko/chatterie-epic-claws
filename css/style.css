@@ -690,8 +690,8 @@ ul { padding: 0; margin: 0; list-style: none; }
 .sibling-card:hover h4 { color: var(--gold-700); }
 .sibling-photo { aspect-ratio: 1; position: relative; overflow: hidden; }
 .sibling-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.sibling-photo .kitten-status { top: 10px; right: 10px; font-size: 0.62rem; padding: 0.35em 0.75em; }
 .sibling-body { padding: 0.9rem 1rem; }
+.sibling-status-inline { position: static; display: inline-block; max-width: 100%; font-size: 0.52rem; letter-spacing: 0.02em; padding: 0.3em 0.5em; margin-bottom: 0.5rem; white-space: nowrap; }
 .sibling-body h4 { font-size: 1.05rem; margin: 0 0 0.2rem; }
 .sibling-body span { font-size: 0.82rem; color: var(--text-on-light-soft); }
 
@@ -705,9 +705,9 @@ ul { padding: 0; margin: 0; list-style: none; }
 }
 .process-step h4 { font-size: 1.05rem; margin-bottom: 0.4rem; }
 
-/* ---- Fiche chaton : scroll horizontal sur mobile ---- */
+/* ---- Fiche chaton : adaptation mobile ---- */
 @media (max-width: 700px) {
-  .siblings-row, .process-steps {
+  .siblings-row {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -716,10 +716,12 @@ ul { padding: 0; margin: 0; list-style: none; }
     justify-content: flex-start;
     padding-bottom: 0.6rem;
   }
-  .process-step { flex: 0 0 32%; scroll-snap-align: start; }
   .sibling-card { flex: 0 0 32%; width: auto; scroll-snap-align: start; }
+  .sibling-body { padding: 0.7rem 0.5rem; }
 
   .trust-strip-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem 0.6rem; }
+
+  .process-steps { grid-template-columns: 1fr; gap: 2rem; }
 }
 
 /* Articles / blog */

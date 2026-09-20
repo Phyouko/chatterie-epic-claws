@@ -123,10 +123,10 @@ function renderSiblingCard(sibling) {
   return `
     <a class="sibling-card" href="chaton.html?nom=${encodeURIComponent(sibling.nom)}">
       <div class="sibling-photo">
-        <span class="${statusClass}">${escapeHtml(sibling.statut || "Disponible")}</span>
         ${photo}
       </div>
       <div class="sibling-body">
+        <span class="${statusClass} sibling-status-inline">${escapeHtml(sibling.statut || "Disponible")}</span>
         <h4>${escapeHtml(sibling.nom)}</h4>
         <span>${escapeHtml(sibling.sexe || "")}${sibling.couleur ? " · " + escapeHtml(sibling.couleur) : ""}</span>
       </div>
