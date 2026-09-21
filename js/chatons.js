@@ -116,7 +116,7 @@ function initFicheGallery(root) {
 
 function renderSiblingCard(sibling) {
   const isReserved = sibling.statut === "Réservé";
-  const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
+  const statusClass = isReserved ? "sibling-status-inline reserved" : "sibling-status-inline";
   const photo = sibling.photo
     ? `<img src="${escapeHtml(sibling.photo)}" alt="${escapeHtml(sibling.nom)}">`
     : "";
@@ -126,7 +126,7 @@ function renderSiblingCard(sibling) {
         ${photo}
       </div>
       <div class="sibling-body">
-        <span class="${statusClass} sibling-status-inline">${escapeHtml(sibling.statut || "Disponible")}</span>
+        <span class="${statusClass}">${escapeHtml(sibling.statut || "Disponible")}</span>
         <h4>${escapeHtml(sibling.nom)}</h4>
         <span>${escapeHtml(sibling.sexe || "")}${sibling.couleur ? " · " + escapeHtml(sibling.couleur) : ""}</span>
       </div>
@@ -280,9 +280,9 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
             </div>
             ${thumbsHtml}
           </div>
+          <h1 class="fiche-name">${escapeHtml(nom)}</h1>
           <div class="fiche-hero-info">
             ${tagline}
-            <h1>${escapeHtml(nom)}</h1>
             <div class="quick-facts">
               <div class="quick-fact">
                 <span class="qf-icon"><i class="fa-solid ${sexIcon}"></i></span>
