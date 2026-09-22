@@ -137,7 +137,8 @@ ul { padding: 0; margin: 0; list-style: none; }
 .section-head.align-left .divider::before { display: none; }
 
 /* ---- Sections ---- */
-.section { padding: 5.5rem 0; }
+.section { padding: 4rem 0; }
+@media (max-width: 700px) { .section { padding: 3rem 0; } }
 .section-light { background: var(--parchment); }
 .section-alt { background: var(--parchment-2); }
 .section-dark {
@@ -741,8 +742,8 @@ ul { padding: 0; margin: 0; list-style: none; }
     justify-content: center;
     padding-bottom: 0.6rem;
   }
-  .sibling-card { flex: 0 0 32%; width: auto; scroll-snap-align: start; }
-  .sibling-body { padding: 0.7rem 0.5rem; }
+  .sibling-card { flex: 0 0 48%; width: auto; scroll-snap-align: start; }
+  .sibling-body { padding: 0.8rem 0.7rem; }
 
   .trust-strip-mini { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 0.6rem; }
   .trust-item-mini { flex: 0 0 28%; }

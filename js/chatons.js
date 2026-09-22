@@ -95,7 +95,7 @@ function renderTraits(traits) {
 }
 
 function getFichePhotos(chaton) {
-  const extra = (chaton.photos_supplementaires || []).map((p) => p && p.image).filter(Boolean);
+  const extra = (chaton.photos_supplementaires || []).map((p) => (typeof p === "string" ? p : p && p.image)).filter(Boolean);
   return [chaton.photo, ...extra].filter(Boolean);
 }
 
