@@ -10,6 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  document.querySelectorAll(".faq-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".faq-card");
+      const isOpen = card.classList.contains("open");
+      document.querySelectorAll(".faq-card.open").forEach((c) => {
+        if (c !== card) {
+          c.classList.remove("open");
+          c.querySelector(".faq-toggle").setAttribute("aria-expanded", "false");
+        }
+      });
+      card.classList.toggle("open", !isOpen);
+      btn.setAttribute("aria-expanded", String(!isOpen));
+    });
+  });
+
   const form = document.querySelector("#contact-form");
   if (!form) return;
 
