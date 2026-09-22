@@ -379,7 +379,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
   const finalCta = `
     <section class="section section-alt" style="text-align:center">
       <div class="container">
-        <h2>Craquez pour ${escapeHtml(nom)} ?</h2>
+        <h2>Vous craquez pour ${escapeHtml(nom)} ?</h2>
         <p style="max-width:520px;margin:0 auto 1.6rem">Vous avez une question, un coup de cœur ? Nous serons ravis d'échanger avec vous.</p>
         <div class="cta-row" style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.6rem">
           <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
