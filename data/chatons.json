@@ -1,24 +1,6 @@
 {
   "chatons": [
     {
-      "traits": [
-        "Curieux",
-        "Sociable",
-        "Câlin"
-      ],
-      "pere": "Yoda",
-      "mere": "Arya",
-      "nom": "Tyr",
-      "tagline": "Un petit lion roux plein de malice",
-      "prix": "1300€",
-      "visible": true,
-      "photo": "images/chatons/whatsapp-image-2026-09-04-at-16.08.39-1-.jpeg",
-      "statut": "Réservé",
-      "date_naissance": "17/08/2026",
-      "sexe": "Mâle",
-      "couleur": "Red"
-    },
-    {
       "photos_supplementaires": [
         "/images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg"
       ],
