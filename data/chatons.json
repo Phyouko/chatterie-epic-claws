@@ -2,7 +2,9 @@
   "chatons": [
     {
       "photos_supplementaires": [
-        "/images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg"
+        "/images/chatons/whatsapp-image-2026-09-04-at-16.08.40-3-.jpeg",
+        "/images/chatons/1000026425.heic",
+        "/images/chatons/1000026419.heic"
       ],
       "traits": [
         "Calme",
@@ -16,7 +18,7 @@
       "tagline": "Discrète en apparence, espiègle en vrai",
       "prix": "1500€",
       "visible": true,
-      "photo": "/images/chatons/1000026198.jpg",
+      "photo": "/images/chatons/1000026435.heic",
       "statut": "Disponible",
       "date_naissance": "17/08/2026",
       "sexe": "Femelle",
