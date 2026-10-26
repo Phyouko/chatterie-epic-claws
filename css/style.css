@@ -782,6 +782,10 @@ ul { padding: 0; margin: 0; list-style: none; }
   box-shadow: var(--shadow-soft);
   margin-bottom: 2.5rem;
 }
+.article-cta { text-align: center; }
+.article-cta .container { max-width: 760px; }
+.article-cta p { margin: 0 auto 1.6rem; max-width: 560px; }
+.article-cta-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
 .article-body { max-width: 720px; margin: 0 auto; font-size: 1.05rem; }
 .article-body h2 { font-size: 1.5rem; color: var(--brown-800); margin-top: 1.8em; }
 .article-body h3 { font-size: 1.2rem; color: var(--brown-800); margin-top: 1.5em; }

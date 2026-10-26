@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const content = document.querySelector("#article-content");
-  if (content) {
+  if (content && !content.dataset.prerendered) {
     const slug = new URLSearchParams(window.location.search).get("slug") || "";
     fetch("data/articles.json")
       .then((res) => res.json())
@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const article = (data.articles || []).find((a) => a.slug === slug);
         if (!article) {
           content.innerHTML = "<p>Cet article n'existe pas ou plus.</p>";
+          return;
+        }
+        if (article.url) {
+          window.location.replace(article.url);
           return;
         }
         document.title = `${article.titre} — Chatterie Epic Claws`;
@@ -50,7 +54,7 @@ function formatDate(dateStr) {
 function renderArticleCard(article) {
   const bg = article.image ? escapeHtml(article.image) : "images/logo.avif";
   return `
-    <a class="teaser-card article-card" style="background-image:url('${bg}')" href="article.html?slug=${encodeURIComponent(article.slug || "")}">
+    <a class="teaser-card article-card" style="background-image:url('${bg}')" href="${escapeHtml(article.url || `article.html?slug=${encodeURIComponent(article.slug || "")}`)}">
       <div class="teaser-body">
         <span class="article-date">${escapeHtml(formatDate(article.date))}</span>
         <h3>${escapeHtml(article.titre || "")}</h3>

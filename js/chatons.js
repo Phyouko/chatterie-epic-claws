@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fiche = document.querySelector("#fiche-chaton");
   if (fiche) {
-    const nom = new URLSearchParams(window.location.search).get("nom") || "";
+    const prerendered = Boolean(fiche.dataset.nom);
+    const nom = fiche.dataset.nom || new URLSearchParams(window.location.search).get("nom") || "";
     Promise.all([
       fetch("data/chatons.json").then((res) => res.json()),
       fetch("data/reproductrices.json").then((res) => res.json()).catch(() => ({ reproductrices: [] })),
@@ -31,8 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
           fiche.innerHTML = `<section class="section section-light"><div class="container"><p>Ce chaton n'est plus disponible ou la fiche demandée n'existe pas.</p><a href="chatons.html" class="btn btn-outline">← Voir tous les chatons disponibles</a></div></section>`;
           return;
         }
+        if (!prerendered && chaton.url) {
+          window.location.replace(chaton.url);
+          return;
+        }
         const parentIndex = buildParentIndex(femellesData.reproductrices || [], malesData.reproducteurs || []);
-        document.title = `${chaton.nom} — Chatterie Epic Claws`;
+        if (!prerendered) document.title = `${chaton.nom} — Chatterie Epic Claws`;
         fiche.innerHTML = renderFullFiche(chaton, parentIndex, allChatons);
         initFicheGallery(fiche);
       })
@@ -41,6 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+function kittenUrl(chaton) {
+  return chaton.url || `chaton.html?nom=${encodeURIComponent(chaton.nom || "")}`;
+}
 
 function buildParentIndex(reproductrices, reproducteurs) {
   const map = {};
@@ -121,7 +130,7 @@ function renderSiblingCard(sibling) {
     ? `<img src="${escapeHtml(sibling.photo)}" alt="${escapeHtml(sibling.nom)}">`
     : "";
   return `
-    <a class="sibling-card" href="chaton.html?nom=${encodeURIComponent(sibling.nom)}">
+    <a class="sibling-card" href="${escapeHtml(kittenUrl(sibling))}">
       <div class="sibling-photo">
         ${photo}
       </div>
@@ -211,13 +220,15 @@ function slugify(str) {
     .replace(/^-+|-+$/g, "");
 }
 
-function renderKittenCard(chaton) {
+function renderKittenCard(chaton, index) {
   const isReserved = chaton.statut === "Réservé";
   const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
   const nom = chaton.nom || "";
-  const ficheHref = `chaton.html?nom=${encodeURIComponent(nom)}`;
+  const ficheHref = escapeHtml(kittenUrl(chaton));
+  const altText = `${nom}, chaton Maine Coon ${(chaton.sexe || "").toLowerCase()} ${chaton.couleur || ""}`.replace(/\s+/g, " ").trim();
+  const lazy = index > 2 ? ' loading="lazy"' : "";
   const photo = chaton.photo
-    ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(nom)}">`
+    ? `<img src="${escapeHtml(chaton.photo)}" alt="${escapeHtml(altText)}"${lazy}>`
     : `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="9" r="2"/><circle cx="10.5" cy="6.2" r="2"/><circle cx="15.5" cy="6.2" r="2"/><circle cx="19" cy="9" r="2"/><path d="M12.5 11c3 0 5.5 2.2 5.5 4.6 0 1.9-1.6 3.4-3.6 3.4-1 0-1.6-.4-2.4-.4s-1.4.4-2.4.4c-2 0-3.6-1.5-3.6-3.4C6.5 13.2 9 11 12.5 11Z"/></svg>`;
 
   return `
