@@ -43,6 +43,30 @@ export function validateSignup(body) {
   return { ok: true, entry: { nom, email, telephone, canal } };
 }
 
+// Ajout à la main par l'administratrice (inscription par téléphone, Facebook, ou faite avant la mise en place du site).
+export function validateManual(body, now = new Date()) {
+  if (!body || typeof body !== "object") return { ok: false, error: "Requête invalide." };
+  const nom = cleanText(body.nom, 80);
+  const email = cleanText(body.email, 120).toLowerCase();
+  const telephone = cleanText(body.telephone, 30);
+  const canalBrut = cleanText(body.canal, 40);
+  const digits = telephone.replace(/\D/g, "");
+
+  if (nom.length < 2) return { ok: false, error: "Indique au moins un nom." };
+  if (!email && !telephone) return { ok: false, error: "Indique au moins un e-mail ou un téléphone." };
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return { ok: false, error: "Cette adresse e-mail ne semble pas valide." };
+  if (telephone && (digits.length < 8 || digits.length > 15)) return { ok: false, error: "Ce numéro de téléphone ne semble pas valide." };
+
+  let createdAt = now;
+  if (body.created_at) {
+    createdAt = new Date(body.created_at);
+    if (Number.isNaN(createdAt.getTime())) return { ok: false, error: "Cette date ne semble pas valide." };
+    if (createdAt.getTime() > now.getTime() + 24 * 3600 * 1000) return { ok: false, error: "La date d'inscription ne peut pas être dans le futur." };
+  }
+  const canal = CANAUX.includes(canalBrut) ? canalBrut : "Autre";
+  return { ok: true, entry: { nom, email, telephone, canal }, createdAt };
+}
+
 export function makeId(now = new Date(), random = Math.random()) {
   return `${now.toISOString()}_${Math.floor(random * 36 ** 6).toString(36).padStart(6, "0")}`;
 }
@@ -73,10 +97,10 @@ export async function countEntries(store) {
   return blobs.length;
 }
 
-export async function addSignup(store, entry, now = new Date()) {
+export async function addSignup(store, entry, now = new Date()) {  // `now` = date d'inscription (ordre d'arrivée)
   const existing = await listEntries(store);
   if (existing.length >= MAX_ENTRIES) return { status: "full" };
-  const duplicate = existing.find((e) => e.email === entry.email);
+  const duplicate = entry.email ? existing.find((e) => e.email === entry.email) : null;
   if (duplicate) return { status: "duplicate", id: duplicate.id };
   const id = makeId(now);
   await store.setJSON(id, { ...entry, created_at: now.toISOString(), contacte: false });
