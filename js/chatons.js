@@ -320,6 +320,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
               <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
               <a href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             </div>
+            ${isReserved ? `<p class="form-note" style="margin-top:1rem">${escapeHtml(nom)} est réservé${isFemale ? "e" : ""}. <a href="liste-attente.html" style="text-decoration:underline">Rejoignez la liste d'attente</a> pour être prévenu(e) en priorité en cas de désistement ou à la prochaine portée.</p>` : ""}
           </div>
         </div>
 
@@ -375,7 +376,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
           <div class="process-step">
             <div class="process-num">3</div>
             <h4>Réservation</h4>
-            <p>Un acompte de 300 € valide votre réservation jusqu'au départ du chaton.</p>
+            <p>Des arrhes de 300 € valident votre réservation jusqu'au départ du chaton.</p>
           </div>
           <div class="process-step">
             <div class="process-num">4</div>
@@ -396,6 +397,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
           <a href="${contactHref}" class="btn btn-primary">Je suis intéressé(e) par ${escapeHtml(nom)}</a>
           <a href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
         </div>
+        <p style="margin:0 0 1.2rem"><a href="liste-attente.html" style="text-decoration:underline">Ce n'est pas le bon moment ? Rejoignez la liste d'attente.</a></p>
         <a href="chatons.html" class="btn btn-outline">← Voir tous les chatons disponibles</a>
       </div>
     </section>

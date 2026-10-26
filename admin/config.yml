@@ -186,3 +186,35 @@ collections:
                 widget: "boolean"
                 default: true
                 hint: "Décoche pour le masquer de la liste publique — il pourra quand même s'afficher comme père sur la fiche d'un chaton."
+
+  - name: "liste_attente"
+    label: "Liste d'attente"
+    files:
+      - name: "reglages"
+        label: "Prochaine portée et places restantes"
+        file: "data/liste-attente.json"
+        fields:
+          - label: "Prochaine portée prévue"
+            name: "prochaine_portee"
+            widget: "string"
+            required: false
+            hint: "ex : Printemps 2027. Laisse vide tant que tu ne sais pas."
+          - label: "Parents de la portée"
+            name: "parents"
+            widget: "string"
+            required: false
+            hint: "ex : Arya × Yoda (affiché sous la date)"
+          - label: "Nombre total de places sur la liste"
+            name: "places_total"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            required: false
+            hint: "Optionnel. Avec les places restantes, affiche une barre de progression."
+          - label: "Places restantes"
+            name: "places_restantes"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            required: false
+            hint: "À mettre à jour à chaque inscription : l'affichage doit rester exact. Laisse vide pour ne rien afficher."
