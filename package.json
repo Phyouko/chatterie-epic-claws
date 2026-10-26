@@ -1,0 +1,11 @@
+{
+  "name": "chatterie-epic-claws",
+  "private": true,
+  "description": "Fonctions Netlify de la liste d'attente (stockage Netlify Blobs).",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.6"
+  }
+}

@@ -29,6 +29,7 @@ OPT_DIR = "images/optimized"
 EXCLUDE_TOP = {
     ".git", ".github", ".claude", "dist", "scripts", "node_modules", "__pycache__",
     "requirements.txt", "requirements-images.txt", "netlify.toml", ".gitignore",
+    "netlify", "package.json", "package-lock.json",
 }
 
 

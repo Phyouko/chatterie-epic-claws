@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liste d'attente — Administration</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+  :root { --brown-900:#2b1810; --brown-800:#3e2417; --gold-700:#8a6a26; --gold-600:#a9822f; --gold-500:#c79a3d; --gold-300:#e4c777; --parchment:#faf6ee; --cream:#fdfbf6; --ink:#2a1b10; --soft:#5a4632; --green:#4b6b3e; --red:#7a2f2f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'EB Garamond', Georgia, serif; font-size: 17px; line-height: 1.55; background: var(--parchment); color: var(--ink); }
+  header.top { background: var(--brown-900); color: var(--gold-300); padding: 1rem 1.2rem; display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  header.top h1 { margin: 0; font: 600 1.15rem 'Cinzel', serif; letter-spacing: .04em; }
+  header.top a, header.top button { color: var(--gold-300); font: 500 .85rem 'Cinzel', serif; letter-spacing: .05em; text-transform: uppercase; background: none; border: 1px solid rgba(228,199,119,.5); border-radius: 6px; padding: .5em .9em; cursor: pointer; text-decoration: none; }
+  main { max-width: 900px; margin: 0 auto; padding: 1.4rem 1rem 3rem; }
+  .box { background: var(--cream); border: 1px solid rgba(199,154,61,.4); border-radius: 8px; padding: 1.2rem 1.3rem; margin-bottom: 1.2rem; }
+  .summary { display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: baseline; justify-content: space-between; }
+  .big { font: 600 2rem 'Cinzel', serif; color: var(--brown-800); line-height: 1; }
+  .label { display: block; font: 500 .72rem 'Cinzel', serif; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-700); margin-bottom: .25rem; }
+  .muted { color: var(--soft); font-size: .92rem; }
+  .btn { font: 500 .85rem 'Cinzel', serif; letter-spacing: .05em; text-transform: uppercase; background: var(--gold-500); color: var(--ink); border: 1px solid var(--gold-700); border-radius: 999px; padding: .75em 1.4em; cursor: pointer; }
+  ol.list { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; }
+  li.row { background: var(--cream); border: 1px solid rgba(199,154,61,.35); border-radius: 8px; padding: .95rem 1.1rem; display: grid; grid-template-columns: 54px 1fr; gap: .9rem; }
+  li.row.next { border-color: var(--gold-500); box-shadow: 0 0 0 2px rgba(199,154,61,.35); }
+  li.row.done { opacity: .62; }
+  .rank { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold-500); background: rgba(199,154,61,.12); display: flex; align-items: center; justify-content: center; font: 600 1rem 'Cinzel', serif; color: var(--gold-700); }
+  .name { font: 600 1.05rem 'Cinzel', serif; color: var(--brown-800); }
+  .badge { display: inline-block; font: 500 .68rem 'Cinzel', serif; letter-spacing: .08em; text-transform: uppercase; padding: .25em .7em; border-radius: 999px; margin-left: .5rem; vertical-align: middle; }
+  .badge.next { background: var(--gold-500); color: var(--ink); }
+  .badge.done { background: rgba(75,107,62,.15); color: var(--green); }
+  .meta { color: var(--soft); font-size: .93rem; margin: .15rem 0 .5rem; }
+  .contacts { display: flex; flex-wrap: wrap; gap: .5rem .9rem; margin-bottom: .6rem; }
+  .contacts a { color: var(--gold-700); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
+  .actions { display: flex; gap: .7rem; flex-wrap: wrap; align-items: center; }
+  .actions label { display: inline-flex; gap: .45rem; align-items: center; cursor: pointer; font-size: .95rem; }
+  .actions input { accent-color: var(--green); width: 18px; height: 18px; }
+  .danger { background: none; border: 1px solid rgba(122,47,47,.5); color: var(--red); border-radius: 6px; padding: .3em .8em; cursor: pointer; font: 500 .78rem 'Cinzel', serif; letter-spacing: .05em; text-transform: uppercase; }
+  .error { color: var(--red); }
+  .center { text-align: center; padding: 2rem 0; }
+  @media (max-width: 520px) { li.row { grid-template-columns: 1fr; } .rank { width: 38px; height: 38px; font-size: .9rem; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Liste d'attente</h1>
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+    <button type="button" id="refresh" hidden>Actualiser</button>
+    <button type="button" id="logout" hidden>Se déconnecter</button>
+    <a href="/admin/">← Administration</a>
+  </div>
+</header>
+<main id="app"><p class="center muted">Chargement…</p></main>
+
+<script>
+(function () {
+  var app = document.getElementById("app");
+  var refreshBtn = document.getElementById("refresh");
+  var logoutBtn = document.getElementById("logout");
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]; }); }
+
+  function show(html) { app.innerHTML = html; }
+
+  function showLogin() {
+    refreshBtn.hidden = logoutBtn.hidden = true;
+    show('<div class="box center"><p>Connectez-vous avec votre compte d\'administration pour voir les inscrits.</p><button class="btn" id="login">Se connecter</button></div>');
+    document.getElementById("login").onclick = function () { netlifyIdentity.open("login"); };
+  }
+
+  function api(method, body) {
+    var user = netlifyIdentity.currentUser();
+    if (!user) return Promise.reject(new Error("no-user"));
+    return user.jwt().then(function (token) {
+      return fetch("/api/inscrits", {
+        method: method,
+        headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined
+      });
+    });
+  }
+
+  function whatsappUrl(phone) {
+    var d = String(phone).replace(/\D/g, "");
+    if (d.length === 10 && d.charAt(0) === "0") d = "33" + d.slice(1);
+    return "https://wa.me/" + d;
+  }
+
+  function dateFr(iso) {
+    try { return new Date(iso).toLocaleString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }); }
+    catch (e) { return iso; }
+  }
+
+  function placesBlock(count) {
+    return fetch("/data/liste-attente.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (cfg) {
+      var total = cfg.places_total === "" || cfg.places_total == null ? null : Number(cfg.places_total);
+      var offset = cfg.places_deja_prises === "" || cfg.places_deja_prises == null ? 0 : Number(cfg.places_deja_prises);
+      if (total === null || !isFinite(total)) {
+        return '<div><span class="label">Places restantes</span><span class="muted">Pas de limite définie. Indique un « nombre total de places » dans Administration → Liste d\'attente pour les calculer automatiquement.</span></div>';
+      }
+      var left = Math.max(0, total - (isFinite(offset) ? offset : 0) - count);
+      return '<div><span class="label">Places restantes</span><span class="big">' + left + '</span> <span class="muted">sur ' + total + (offset ? " (dont " + offset + " déjà prise(s) hors du site)" : "") + "</span></div>";
+    }).catch(function () { return ""; });
+  }
+
+  function render(entries) {
+    var nextIndex = -1;
+    entries.forEach(function (e, i) { if (nextIndex === -1 && !e.contacte) nextIndex = i; });
+    return placesBlock(entries.length).then(function (places) {
+      var html = '<div class="box summary"><div><span class="label">Inscrits (ordre d\'arrivée)</span><span class="big">' + entries.length + "</span></div>" + places + "</div>";
+      if (!entries.length) {
+        html += '<div class="box center muted">Personne ne s\'est encore inscrit. Les inscriptions apparaîtront ici, dans l\'ordre d\'arrivée.</div>';
+        return html;
+      }
+      html += '<ol class="list">' + entries.map(function (e, i) {
+        var cls = "row" + (i === nextIndex ? " next" : "") + (e.contacte ? " done" : "");
+        var badge = i === nextIndex ? '<span class="badge next">À contacter en premier</span>' : (e.contacte ? '<span class="badge done">Contacté</span>' : "");
+        return '<li class="' + cls + '" data-id="' + esc(e.id) + '">' +
+          '<div class="rank">' + (i + 1) + "</div><div>" +
+          '<div class="name">' + esc(e.nom) + badge + "</div>" +
+          '<div class="meta">Inscrit(e) le ' + esc(dateFr(e.created_at)) + " · via " + esc(e.canal) + "</div>" +
+          '<div class="contacts"><a href="tel:' + esc(String(e.telephone).replace(/[^\d+]/g, "")) + '">' + esc(e.telephone) + "</a>" +
+          '<a href="' + esc(whatsappUrl(e.telephone)) + '" target="_blank" rel="noopener">WhatsApp</a>' +
+          '<a href="mailto:' + esc(e.email) + '">' + esc(e.email) + "</a></div>" +
+          '<div class="actions"><label><input type="checkbox" data-act="contacte"' + (e.contacte ? " checked" : "") + "> Contacté(e)</label>" +
+          '<button type="button" class="danger" data-act="retirer">Retirer de la liste</button></div>' +
+          "</div></li>";
+      }).join("") + "</ol>";
+      return html;
+    });
+  }
+
+  function load() {
+    refreshBtn.hidden = logoutBtn.hidden = false;
+    show('<p class="center muted">Chargement…</p>');
+    api("GET").then(function (res) {
+      return res.json().then(function (data) { return { res: res, data: data }; });
+    }).then(function (r) {
+      if (r.res.status === 403) {
+        show('<div class="box center"><p class="error"><strong>Accès non autorisé.</strong></p><p class="muted">Vous êtes connecté(e) avec ' + esc(r.data.email || "ce compte") + ", mais il n'est pas dans la liste des administrateurs. Contactez la personne qui gère le site.</p></div>");
+        return;
+      }
+      if (!r.res.ok) { show('<div class="box center error">' + esc(r.data.error || "Erreur de chargement.") + "</div>"); return; }
+      return render(r.data.entries).then(show);
+    }).catch(function () {
+      show('<div class="box center error">Impossible de charger la liste. Vérifiez votre connexion puis cliquez sur « Actualiser ».</div>');
+    });
+  }
+
+  app.addEventListener("click", function (ev) {
+    var btn = ev.target.closest('[data-act="retirer"]');
+    if (!btn) return;
+    var row = btn.closest("li");
+    var name = row.querySelector(".name").firstChild.textContent;
+    if (!confirm("Retirer " + name + " de la liste d'attente ? Sa place sera libérée.")) return;
+    btn.disabled = true;
+    api("POST", { action: "retirer", id: row.getAttribute("data-id") }).then(load).catch(function () { alert("Échec : réessayez."); btn.disabled = false; });
+  });
+  app.addEventListener("change", function (ev) {
+    var box = ev.target.closest('[data-act="contacte"]');
+    if (!box) return;
+    var row = box.closest("li");
+    box.disabled = true;
+    api("POST", { action: "contacte", id: row.getAttribute("data-id"), value: box.checked }).then(load).catch(function () { alert("Échec : réessayez."); box.disabled = false; box.checked = !box.checked; });
+  });
+
+  refreshBtn.onclick = load;
+  logoutBtn.onclick = function () { netlifyIdentity.logout(); };
+
+  window.addEventListener("load", function () {
+    if (!window.netlifyIdentity) { show('<div class="box center error">Le module de connexion n\'a pas pu se charger. Rechargez la page.</div>'); return; }
+    netlifyIdentity.on("init", function (user) { user ? load() : showLogin(); });
+    netlifyIdentity.on("login", function () { netlifyIdentity.close(); load(); });
+    netlifyIdentity.on("logout", showLogin);
+    netlifyIdentity.init();
+  });
+})();
+</script>
+</body>
+</html>

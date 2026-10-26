@@ -271,11 +271,17 @@ ul { padding: 0; margin: 0; list-style: none; }
 .nav-social svg { width: 15px; height: 15px; }
 .nav-social img { width: 16px; height: 16px; object-fit: contain; }
 .nav-phone {
+  display: none; /* retiré de l'en-tête pour laisser la place au bouton « Liste d'attente » (numéro dans le pied de page et la page Contact) */
   color: var(--gold-300);
   font-family: var(--font-display);
   font-size: 0.85rem;
   white-space: nowrap;
 }
+.nav-cta .btn { padding: 0.75em 1.25em; }
+.nav-waitlist { gap: 0.55em; color: var(--gold-300); border-color: var(--gold-500); white-space: nowrap; }
+.nav-waitlist svg { width: 16px; height: 16px; flex: none; margin: 3.2px 0; }
+.nav-waitlist:hover, .nav-waitlist.active { background: rgba(199,154,61,0.16); color: var(--gold-100); }
+.nav-links .nav-mobile-only { display: none; }
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -1016,14 +1022,18 @@ ul { padding: 0; margin: 0; list-style: none; }
 }
 
 /* ================= Responsive ================= */
-@media (max-width: 900px) {
-  .about-grid, .cat-card { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+/* En-tête : version complète dès 1200px (le conteneur est plafonné à 1140px), version compacte en dessous */
+@media (max-width: 1199px) {
+  .nav-social { display: none; }
 }
-
-@media (max-width: 760px) {
-  body { font-size: 16.5px; }
+@media (max-width: 1099px) {
+  .nav-links { gap: 1.3rem; }
+  .nav-waitlist span { display: none; }
+  .nav-waitlist { padding: 0.75em 0.85em; }
+  .nav-waitlist svg { width: 19px; height: 19px; margin: 1.7px 0; }
+}
+/* Menu burger dès 940px : en dessous, la navigation complète ne tient plus à côté des boutons */
+@media (max-width: 940px) {
   .nav-links {
     position: absolute;
     top: 100%; left: 0; right: 0;
@@ -1037,8 +1047,18 @@ ul { padding: 0; margin: 0; list-style: none; }
   }
   .nav-links.open { display: flex; }
   .nav-toggle { display: flex; }
-  .nav-phone { display: none; }
-  .nav-social { display: none; }
+  .nav-links .nav-mobile-only { display: inline-block; color: var(--gold-300); }
+  .nav-cta { gap: 10px; }
+}
+
+@media (max-width: 900px) {
+  .about-grid, .cat-card { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16.5px; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
@@ -1052,4 +1072,12 @@ ul { padding: 0; margin: 0; list-style: none; }
   .contact-info-col { grid-column: 1; grid-row: auto; order: 1; }
   .contact-form-col { grid-column: 1; grid-row: auto; order: 2; }
   .contact-map-col { grid-column: 1; grid-row: auto; order: 3; }
+}
+
+@media (max-width: 380px) {
+  .site-header .container { gap: 8px; }
+  .brand img { width: 50px; height: 50px; }
+  .nav-cta { gap: 6px; }
+  .nav-cta .btn { padding: 0.7em 0.85em; }
+  .nav-waitlist { padding: 0.7em 0.7em; }
 }

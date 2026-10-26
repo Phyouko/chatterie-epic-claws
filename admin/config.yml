@@ -210,11 +210,11 @@ collections:
             value_type: "int"
             min: 0
             required: false
-            hint: "Optionnel. Avec les places restantes, affiche une barre de progression."
-          - label: "Places restantes"
-            name: "places_restantes"
+            hint: "Les places restantes se calculent toutes seules (total - inscrits). Laisse vide pour ne rien afficher."
+          - label: "Déjà inscrits en dehors du site"
+            name: "places_deja_prises"
             widget: "number"
             value_type: "int"
             min: 0
             required: false
-            hint: "À mettre à jour à chaque inscription : l'affichage doit rester exact. Laisse vide pour ne rien afficher."
+            hint: "Personnes que tu as inscrites toi-même (téléphone, Facebook...). Elles sont retirées des places restantes. Les inscrits du site sont comptés automatiquement."
