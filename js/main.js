@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  document.querySelectorAll("form[data-netlify]").forEach((form) => {
+  // Netlify retire data-netlify au déploiement : on cible donc le formulaire de contact par son id
+  // et les autres formulaires par data-success (qui, lui, est conservé).
+  document.querySelectorAll("#contact-form, form[data-success]").forEach((form) => {
     const submitBtn = form.querySelector("button[type=submit]");
     const idleLabel = submitBtn ? submitBtn.textContent : "";
     const successPage = form.dataset.success || "merci.html";
