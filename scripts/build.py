@@ -381,6 +381,8 @@ def build_kittens(data):
         couleur = (chaton.get("couleur") or "").strip()
         title = "%s, chaton Maine Coon %s%s — %s" % (nom, sexe_label, (" " + couleur) if couleur else "", SITE_NAME)
         statut = (chaton.get("statut") or "Disponible").lower()
+        if female and statut == "réservé":
+            statut = "réservée"
         born = chaton.get("date_naissance")
         sentence = "Chaton Maine Coon %s%s%s, %s." % (
             sexe_label, (" " + couleur) if couleur else "",
