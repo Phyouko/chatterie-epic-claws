@@ -1,6 +1,8 @@
+// Les fiches sont écrites dans la page à la publication (scripts/build.py).
+// Ce rendu ne sert que de secours si cette étape n'a pas tourné.
 document.addEventListener("DOMContentLoaded", () => {
   const femellesGrid = document.querySelector("#reproductrices-grid");
-  if (femellesGrid) {
+  if (femellesGrid && !femellesGrid.dataset.prerendered) {
     fetch("data/reproductrices.json")
       .then((res) => res.json())
       .then((data) => {
@@ -15,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const malesGrid = document.querySelector("#reproducteurs-grid");
-  if (malesGrid) {
+  if (malesGrid && !malesGrid.dataset.prerendered) {
     fetch("data/reproducteurs.json")
       .then((res) => res.json())
       .then((data) => {

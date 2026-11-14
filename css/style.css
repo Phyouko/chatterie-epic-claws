@@ -1081,3 +1081,122 @@ ul { padding: 0; margin: 0; list-style: none; }
   .nav-cta .btn { padding: 0.7em 0.85em; }
   .nav-waitlist { padding: 0.7em 0.7em; }
 }
+
+/* ================= Bandeau « prochaine portée » (inséré à la publication) ================= */
+.litter-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.1rem 0.9rem;
+  padding: 0.5rem 1rem;
+  background: var(--gold-500);
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.litter-banner:hover { background: var(--gold-300); color: var(--ink); }
+.litter-banner strong { font-weight: 500; }
+.lb-spots:empty { display: none; }
+.lb-parents::before, .lb-spots::before { content: "·"; margin-right: 0.9rem; }
+.lb-cta {
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .litter-banner { font-size: 0.92rem; padding: 0.45rem 0.8rem; }
+  .lb-parents { display: none; }
+  .lb-spots::before { content: none; }
+}
+
+/* Accueil : le sous-titre fait partie du grand titre */
+.hero h1 .subtitle { display: block; font-weight: 500; line-height: 1.5; }
+
+/* ================= Fiches écrites à la publication ================= */
+.cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.cat-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+.cat-card h3 a { color: inherit; }
+.cat-card h3 a:hover { color: var(--gold-700); }
+.cat-card .cat-photo a { position: absolute; inset: 0; display: block; }
+
+.kitten-status.adopted { background: var(--brown-700); border-color: var(--brown-900); color: var(--gold-100); }
+.sibling-status-inline.adopted::before { background: var(--gold-600); }
+
+#fiche-parent .fiche-gallery-main { aspect-ratio: 4 / 5; }
+.fiche-name-sub {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-on-light-soft);
+}
+.fiche-block { padding-top: 0; }
+.parent-body .teaser-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.health-list { margin: 0; border-top: 1px solid rgba(199,154,61,0.35); }
+.health-list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0.2rem;
+  border-bottom: 1px solid rgba(199,154,61,0.35);
+}
+.health-list dt { color: var(--brown-800); font-weight: 500; }
+.health-list dd { margin: 0; text-align: right; }
+
+.legal-line { margin: 1.6rem 0 0; text-align: center; font-size: 0.85rem; color: var(--text-on-light-soft); }
+.legal-line strong { font-weight: 500; }
+
+.family-quote {
+  margin: 0 0 1.2rem;
+  padding: 0.9rem 1.2rem;
+  border-left: 3px solid var(--gold-500);
+  background: var(--cream);
+  font-style: italic;
+  color: var(--text-on-light-soft);
+}
+.family-quote p { margin: 0; }
+.family-quote cite { display: block; margin-top: 0.4rem; font-size: 0.9rem; font-style: normal; color: var(--gold-700); }
+.kitten-body .family-quote { font-size: 0.95rem; }
+.adopted-note { margin: 0 0 1rem; font-size: 1.05rem; color: var(--text-on-light); }
+.adopted-link { margin: 2rem 0 0; text-align: center; }
+.adopted-link a { color: var(--gold-700); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ================= Mentions légales, page introuvable ================= */
+.legal-identity { margin: 0 0 1.4em; }
+.legal-identity > div {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0.2rem 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(199,154,61,0.25);
+}
+.legal-identity dt { color: var(--text-on-light-soft); }
+.legal-identity dd { margin: 0; }
+@media (max-width: 560px) { .legal-identity > div { grid-template-columns: 1fr; } }
+.footer-legal a { text-decoration: underline; text-underline-offset: 3px; }
+.error-code {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 14vw, 7rem);
+  line-height: 1;
+  color: var(--gold-600);
+}

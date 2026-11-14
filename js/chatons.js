@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Les fiches sont écrites dans la page à la publication (scripts/build.py).
+  // Le rendu ci-dessous ne sert que de secours si cette étape n'a pas tourné.
   const grid = document.querySelector("#kittens-grid");
-  if (grid) {
+  if (grid && !grid.dataset.prerendered) {
     fetch("data/chatons.json")
       .then((res) => res.json())
       .then((data) => {
-        const chatons = (data.chatons || []).filter((c) => c.visible !== false);
+        const chatons = (data.chatons || []).filter((c) => c.visible !== false && !isAdopted(c));
         if (chatons.length === 0) {
           grid.innerHTML = "";
           return;
@@ -17,7 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const fiche = document.querySelector("#fiche-chaton");
-  if (fiche) {
+  if (fiche && fiche.dataset.prerendered) {
+    // Fiche déjà complète : il ne reste que l'âge, qui change chaque semaine.
+    fiche.querySelectorAll("[data-birth]").forEach((el) => {
+      const weeks = computeAgeWeeks(el.dataset.birth);
+      if (weeks !== null) el.textContent = ` (${weeks} sem.)`;
+    });
+  } else if (fiche) {
     const prerendered = Boolean(fiche.dataset.nom);
     const nom = fiche.dataset.nom || new URLSearchParams(window.location.search).get("nom") || "";
     Promise.all([
@@ -72,8 +80,18 @@ function parseFrenchShortDate(dateStr) {
 function computeReadyDateLabel(dateStr) {
   const birth = parseFrenchShortDate(dateStr);
   if (!birth) return "";
-  const ready = new Date(birth.getTime() + 84 * 24 * 60 * 60 * 1000);
+  // 12 semaines en jours de calendrier (ajouter des millisecondes décale d'un jour au changement d'heure).
+  const ready = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate() + 84);
   return ready.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function isAdopted(chaton) {
+  return /^adopt/i.test(chaton.statut || "");
+}
+
+function statusModifier(chaton) {
+  if (isAdopted(chaton)) return " adopted";
+  return chaton.statut === "Réservé" ? " reserved" : "";
 }
 
 function computeAgeWeeks(dateStr) {
@@ -124,8 +142,7 @@ function initFicheGallery(root) {
 }
 
 function renderSiblingCard(sibling) {
-  const isReserved = sibling.statut === "Réservé";
-  const statusClass = isReserved ? "sibling-status-inline reserved" : "sibling-status-inline";
+  const statusClass = `sibling-status-inline${statusModifier(sibling)}`;
   const photo = sibling.photo
     ? `<img src="${escapeHtml(sibling.photo)}" alt="${escapeHtml(sibling.nom)}">`
     : "";
@@ -221,8 +238,7 @@ function slugify(str) {
 }
 
 function renderKittenCard(chaton, index) {
-  const isReserved = chaton.statut === "Réservé";
-  const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
+  const statusClass = `kitten-status${statusModifier(chaton)}`;
   const nom = chaton.nom || "";
   const ficheHref = escapeHtml(kittenUrl(chaton));
   const altText = `${nom}, chaton Maine Coon ${(chaton.sexe || "").toLowerCase()} ${chaton.couleur || ""}`.replace(/\s+/g, " ").trim();
@@ -258,7 +274,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
   const nom = chaton.nom || "";
   const isFemale = chaton.sexe === "Femelle";
   const isReserved = chaton.statut === "Réservé";
-  const statusClass = isReserved ? "kitten-status reserved" : "kitten-status";
+  const statusClass = `kitten-status${statusModifier(chaton)}`;
   const sexIcon = isFemale ? "fa-venus" : "fa-mars";
   const photos = getFichePhotos(chaton);
   const mainPhoto = photos[0]

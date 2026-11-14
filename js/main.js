@@ -10,6 +10,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Bandeau « prochaine portée » : le texte est écrit à la publication, on rafraîchit seulement les places restantes.
+  const banner = document.querySelector(".litter-banner[data-total]");
+  const spots = banner && banner.querySelector(".lb-spots");
+  if (spots) {
+    fetch("/api/places")
+      .then((res) => res.json())
+      .then(({ count }) => {
+        const total = Number(banner.dataset.total);
+        const restantes = Math.max(0, total - Number(banner.dataset.prises || 0) - Number(count || 0));
+        if (restantes === 0) spots.textContent = "liste complète, inscription en liste de réserve";
+        else if (restantes === 1) spots.textContent = `plus qu'une place sur ${total}`;
+        else spots.textContent = `plus que ${restantes} places sur ${total}`;
+      })
+      .catch(() => {});
+  }
+
+  // Galerie des fiches écrites à la publication (chatons et parents) : clic sur une miniature.
+  document.querySelectorAll("[data-prerendered] .fiche-gallery, #fiche-parent .fiche-gallery").forEach((gallery) => {
+    const main = gallery.querySelector(".fiche-gallery-main img");
+    const thumbs = gallery.querySelectorAll(".fiche-thumb");
+    if (!main) return;
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        main.setAttribute("src", thumb.getAttribute("data-src"));
+        thumbs.forEach((t) => t.classList.remove("active"));
+        thumb.classList.add("active");
+      });
+    });
+  });
+
   document.querySelectorAll(".faq-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const card = btn.closest(".faq-card");

@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // La liste est écrite dans la page à la publication (scripts/build.py) ; ceci n'est qu'un secours.
   const grid = document.querySelector("#articles-grid");
-  if (grid) {
+  if (grid && !grid.dataset.prerendered) {
     fetch("data/articles.json")
       .then((res) => res.json())
       .then((data) => {
-        const articles = (data.articles || []).slice().sort(sortByDateDesc);
+        const articles = (data.articles || []).filter((a) => a.visible !== false).sort(sortByDateDesc);
         if (articles.length === 0) {
           grid.innerHTML = "<p>Aucun article pour le moment — revenez bientôt !</p>";
           return;
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("data/articles.json")
       .then((res) => res.json())
       .then((data) => {
-        const article = (data.articles || []).find((a) => a.slug === slug);
+        const article = (data.articles || []).find((a) => a.slug === slug && a.visible !== false);
         if (!article) {
           content.innerHTML = "<p>Cet article n'existe pas ou plus.</p>";
           return;

@@ -37,8 +37,9 @@ collections:
               - label: "Statut"
                 name: "statut"
                 widget: "select"
-                options: ["Disponible", "Réservé"]
+                options: ["Disponible", "Réservé", "Adopté"]
                 default: "Disponible"
+                hint: "Adopté : le chaton quitte la liste des disponibles et rejoint la page « Ils ont trouvé leur famille ». Sa fiche reste en ligne."
               - label: "Photo principale"
                 name: "photo"
                 widget: "image"
@@ -71,6 +72,23 @@ collections:
                 widget: "string"
                 required: false
                 hint: "Tape le nom exact d'une de tes Reproductrices pour créer un lien automatique vers sa fiche, sinon juste le nom en texte."
+              - label: "Nombre de chatons de la portée"
+                name: "portee_nombre"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                required: false
+                hint: "Mention obligatoire dans une annonce de vente. Affichée en bas de sa fiche."
+              - label: "Mot de la famille (une fois adopté)"
+                name: "temoignage"
+                widget: "text"
+                required: false
+                hint: "Optionnel : une phrase de la famille, affichée sur sa fiche et dans la galerie des chatons adoptés."
+              - label: "Signature du mot de la famille"
+                name: "temoignage_auteur"
+                widget: "string"
+                required: false
+                hint: "ex : Benoit, Perpignan"
               - label: "Afficher sur la page Chatons disponibles"
                 name: "visible"
                 widget: "boolean"
@@ -106,6 +124,30 @@ collections:
                 required: false
                 media_folder: "/images/chats"
                 public_folder: "/images/chats"
+              - label: "Autres photos (sur sa fiche complète)"
+                name: "photos_supplementaires"
+                widget: "list"
+                required: false
+                field: {label: "Photo", name: "image", widget: "image", media_folder: "/images/chats", public_folder: "/images/chats"}
+              - label: "Présentation (sur sa fiche complète)"
+                name: "presentation"
+                widget: "text"
+                required: false
+                hint: "Quelques lignes sur elle : son histoire, son caractère, ce qu'elle transmet à ses chatons."
+              - label: "Tests de santé"
+                name: "tests_sante"
+                widget: "list"
+                required: false
+                summary: "{{test}} : {{resultat}}"
+                hint: "Un test par ligne. Rien n'est affiché tant que la liste est vide."
+                fields:
+                  - {label: "Test", name: "test", widget: "string", hint: "ex : HCM (test ADN), SMA, PKDef, échographie cardiaque"}
+                  - {label: "Résultat", name: "resultat", widget: "string", hint: "ex : N/N (négatif) — ou — Normale, mars 2026"}
+              - label: "Numéro d'identification (puce)"
+                name: "identification"
+                widget: "string"
+                required: false
+                hint: "Mention obligatoire dans une annonce de vente : il s'affiche en bas de la fiche de ses chatons."
               - label: "Afficher sur la page Reproductrices"
                 name: "visible"
                 widget: "boolean"
@@ -145,6 +187,21 @@ collections:
                 widget: "markdown"
                 media_folder: "/images/articles"
                 public_folder: "/images/articles"
+              - label: "Publié sur le site"
+                name: "visible"
+                widget: "boolean"
+                default: true
+                hint: "Décoché = brouillon : l'article reste ici mais n'apparaît pas sur le site. Coche pour le publier."
+              - label: "Titre court pour Google (optionnel)"
+                name: "titre_seo"
+                widget: "string"
+                required: false
+                hint: "45 caractères maximum, c'est la ligne bleue dans Google. Laisse vide pour reprendre le titre de l'article."
+              - label: "Description pour Google (optionnel)"
+                name: "description_seo"
+                widget: "text"
+                required: false
+                hint: "Une ou deux phrases complètes, 155 caractères maximum. Laisse vide pour reprendre l'extrait."
 
   - name: "reproducteurs"
     label: "Nos Reproducteurs"
@@ -181,6 +238,25 @@ collections:
                 required: false
                 media_folder: "/images/chats"
                 public_folder: "/images/chats"
+              - label: "Autres photos (sur sa fiche complète)"
+                name: "photos_supplementaires"
+                widget: "list"
+                required: false
+                field: {label: "Photo", name: "image", widget: "image", media_folder: "/images/chats", public_folder: "/images/chats"}
+              - label: "Présentation (sur sa fiche complète)"
+                name: "presentation"
+                widget: "text"
+                required: false
+                hint: "Quelques lignes sur lui : son histoire, son caractère, ce qu'il transmet à ses chatons."
+              - label: "Tests de santé"
+                name: "tests_sante"
+                widget: "list"
+                required: false
+                summary: "{{test}} : {{resultat}}"
+                hint: "Un test par ligne. Rien n'est affiché tant que la liste est vide."
+                fields:
+                  - {label: "Test", name: "test", widget: "string", hint: "ex : HCM (test ADN), SMA, PKDef, échographie cardiaque"}
+                  - {label: "Résultat", name: "resultat", widget: "string", hint: "ex : N/N (négatif) — ou — Normale, mars 2026"}
               - label: "Afficher sur la page Reproducteurs"
                 name: "visible"
                 widget: "boolean"
@@ -218,3 +294,51 @@ collections:
             min: 0
             required: false
             hint: "Personnes que tu as inscrites toi-même (téléphone, Facebook...). Elles sont retirées des places restantes. Les inscrits du site sont comptés automatiquement."
+
+  - name: "reglages"
+    label: "Réglages du site"
+    files:
+      - name: "legal"
+        label: "Informations légales et Google"
+        file: "data/reglages.json"
+        fields:
+          - label: "Nom et prénom de l'éleveur (ou raison sociale)"
+            name: "nom_eleveur"
+            widget: "string"
+            required: false
+            hint: "Affiché dans les mentions légales comme responsable de la publication."
+          - label: "Statut"
+            name: "statut_juridique"
+            widget: "string"
+            required: false
+            hint: "ex : Entrepreneur individuel, Micro-entreprise, Association..."
+          - label: "Numéro SIREN"
+            name: "siren"
+            widget: "string"
+            required: false
+            hint: "9 chiffres. Obligatoire pour vendre des chatons : il s'affiche en bas de toutes les pages, dans les mentions légales et sur chaque fiche chaton."
+          - label: "Adresse postale"
+            name: "adresse"
+            widget: "text"
+            required: false
+            hint: "Affichée dans les mentions légales. Laisse vide pour n'afficher que « Le Soler (66270) »."
+          - label: "E-mail de contact"
+            name: "email"
+            widget: "string"
+            required: false
+            hint: "Optionnel : affiché dans les mentions légales."
+          - label: "Inscription des chatons à un livre généalogique"
+            name: "livre_genealogique"
+            widget: "string"
+            required: false
+            hint: "Mention obligatoire dans une annonce : écris la phrase telle qu'elle doit s'afficher sur les fiches chatons."
+          - label: "Autre mention (optionnel)"
+            name: "mention_libre"
+            widget: "text"
+            required: false
+            hint: "ex : numéro de certificat de capacité (ACACED), numéro d'élevage..."
+          - label: "Code Google Search Console"
+            name: "google_site_verification"
+            widget: "string"
+            required: false
+            hint: "Colle ici la balise HTML donnée par Google Search Console (ou seulement le code entre guillemets après content=)."
