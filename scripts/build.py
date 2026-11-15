@@ -853,9 +853,9 @@ def render_kitten_fiche(chaton, parents, all_kittens, settings):
         date_value += '<span data-birth="%s"></span>' % esc(born_raw)
     ready = ""
     if born and not adopted:
-        ready_date = born + datetime.timedelta(days=84)
+        ready_date = born + datetime.timedelta(days=56)
         ready = (
-            '<div class="qf-divider"></div><div><span class="qf-label">Prêt à partir du</span>'
+            '<div class="qf-divider"></div><div><span class="qf-label">Départ possible dès le</span>'
             '<span class="qf-value">%d %s %d</span></div>' % (ready_date.day, MONTHS[ready_date.month - 1], ready_date.year)
         )
     tagline = '<p class="fiche-tagline">« %s »</p>' % esc(chaton["tagline"]) if text_of(chaton.get("tagline")) else ""
@@ -949,7 +949,7 @@ def render_kitten_fiche(chaton, parents, all_kittens, settings):
         ("Prise de contact", "Vous nous parlez de votre projet, on répond à toutes vos questions."),
         ("Rencontre", "En visio ou à la chatterie au Soler, pour faire connaissance avec %s." % esc(nom)),
         ("Réservation", "Des arrhes de 300 € valident votre réservation jusqu'au départ du chaton."),
-        ("Départ", "Remise dès 12 semaines, avec pedigree, carnet de santé et kit de départ."),
+        ("Départ", "Remise entre 8 et 12 semaines, avec pedigree, carnet de santé et kit de départ."),
     )
     sections.append(
         '<section class="section section-dark"><div class="container"><div class="section-head">'

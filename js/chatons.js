@@ -80,8 +80,8 @@ function parseFrenchShortDate(dateStr) {
 function computeReadyDateLabel(dateStr) {
   const birth = parseFrenchShortDate(dateStr);
   if (!birth) return "";
-  // 12 semaines en jours de calendrier (ajouter des millisecondes décale d'un jour au changement d'heure).
-  const ready = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate() + 84);
+  // 8 semaines en jours de calendrier (ajouter des millisecondes décale d'un jour au changement d'heure).
+  const ready = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate() + 56);
   return ready.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 }
 
@@ -323,7 +323,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
                 <span class="qf-icon"><i class="fa-solid fa-cake-candles"></i></span>
                 <div class="qf-stack">
                   <div><span class="qf-label">Né le</span><span class="qf-value">${dateValue}</span></div>
-                  ${readyLabel ? `<div class="qf-divider"></div><div><span class="qf-label">Prêt à partir du</span><span class="qf-value">${readyLabel}</span></div>` : ""}
+                  ${readyLabel ? `<div class="qf-divider"></div><div><span class="qf-label">Départ possible dès le</span><span class="qf-value">${readyLabel}</span></div>` : ""}
                 </div>
               </div>
               <div class="quick-fact full">
@@ -397,7 +397,7 @@ function renderFullFiche(chaton, parentIndex, allChatons) {
           <div class="process-step">
             <div class="process-num">4</div>
             <h4>Départ</h4>
-            <p>Remise dès 12 semaines, avec pedigree, carnet de santé et kit de départ.</p>
+            <p>Remise entre 8 et 12 semaines, avec pedigree, carnet de santé et kit de départ.</p>
           </div>
         </div>
       </div>
